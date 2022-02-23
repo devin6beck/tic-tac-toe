@@ -9,59 +9,104 @@ class Player {
   }
 }
 
-const computer = false;
+const player1 = new Player('X', "Player One");
+let p1Score = document.querySelector('.p1Score');
+const player2 = new Player('O', "Player Two");
+let p2Score = document.querySelector('.p2Score');
+let board = makeBoard();
+let gameOver = false;
 
-const gameController = (() => {
-  const player1 = new Player('X', "Player One");
-  const p2Name = !computer ? "Player Two": "Computer";
-  const player2 = new Player('O', p2Name)
+const box = document.querySelectorAll('.box');
+const btnClearBoard = document.querySelector('.btnClearBoard');
 
-  game(player1, player2);
-  
+box.forEach(box => {
+  box.addEventListener('click', drawMark, {once: true});
+})
 
-})()
+btnClearBoard.addEventListener('click', clearBoard);
 
-function game(player1, player2) {
-  let board = makeBoard();
-  let gameEnded = false;
-  const box = document.querySelectorAll('.box');
+function clearBoard() {
+  player2.turn = false;
+  gameOver = false;
+  board = makeBoard();
+  box.forEach(box => {
+    box.addEventListener('click', drawMark, {once: true});
+    box.textContent = "";
+  })
+}
 
-  while (!gameEnded) {
-    box.forEach(box => {
-      box.addEventListener('click', handleClick, {once: true});
-    })
-    gameEnded = true;
+function drawMark(e) {
+  let boxClicked = e.target;
+  if (gameOver) {
+    return;
   }
-
-  function makeBoard() {
-    return [null, null, null,
-      null, null, null,
-      null, null, null];
-  }
-
-  function handleClick(e) {
-    const boxClicked = e.target;
-    drawMark(boxClicked);
-  }
-
-  function drawMark(boxClicked) {
-    if (!player2.turn) {
-      boxClicked.textContent = player1.mark;
-      player2.turn = true;
-      board[boxClicked.id] = player1;
-      return;
-    }
+  if (!player2.turn) {
+    boxClicked.textContent = player1.mark;
+    board[boxClicked.id] = player1;
+  } else {
     boxClicked.textContent = player2.mark;
-    player2.turn = false;
     board[boxClicked.id] = player2;
+  }
+  player2.turn = (player2.turn) ? false: true;
+  console.log(`board = ${board}`)
+  if (winnerCheck(player1)) {
+    setTimeout(() => {alert(player1.winningMessage); }, 1);
+    p1Score.textContent++;
+    gameOver = true;
+  } else if (winnerCheck(player2)) {
+    setTimeout(() => {alert(player2.winningMessage); }, 1);
+    p2Score.textContent++;
+    gameOver = true;
+  } else if (tieCheck()) {
+    setTimeout(() => {alert("It's A Tie!"); }, 1);
+    gameOver = true;
   }
 }
 
-// const game = ((player1, player2) => {
+function tieCheck() {
+  return !board.includes(null)
+}
+
+function makeBoard() {
+  console.log("~New Board~")
+  return [null, null, null,
+    null, null, null,
+    null, null, null];
+}
+
+function winnerCheck(player) {
+  
+  if (board[0] === player && board[1] === player && board[2] === player){
+    return true;
+  } else if (board[3] === player && board[4] === player && board[5] === player){
+    return true;
+  } else if (board[6] === player && board[7] === player && board[8] === player){
+    return true;
+  } else if (board[0] === player && board[3] === player && board[6] === player){
+    return true;
+  } else if (board[1] === player && board[4] === player && board[7] === player){
+    return true;
+  } else if (board[2] === player && board[5] === player && board[8] === player){
+    return true;
+  } else if (board[0] === player && board[4] === player && board[8] === player){
+    return true;
+  } else if (board[2] === player && board[4] === player && board[6] === player){
+    return true;
+  }
+}
+
+// function clearBoard() {
+//   gameOver = true;
+//   player2.turn = false;
+//   game(player1, player2);
+// }
+// game(player1, player2);
+
+// function game(player1, player2) {
 //   console.log("playing a game...")
 //   let board = makeBoard();
-//   let winner;
-//   const box = document.querySelectorAll('.box');
+//   let gameOver = false;
+
 
 //   box.forEach(box => {
 //     box.addEventListener('click', boxClicked, {once: true});
@@ -70,13 +115,16 @@ function game(player1, player2) {
 
 //   function boxClicked(e) {
 //     const boxClicked = e.target;
-//     drawMark(boxClicked);
-//     if (winnerCheck()) {
-//       console.log(`${winner.mark}'s win ##`)
-//       return;
+//     if(!gameOver) {
+//       drawMark(boxClicked);
 //     }
-
-    
+//     if(winnerCheck(player1)) {
+//       gameOver = true;
+//       setTimeout(() => {alert(player1.winningMessage); }, 1);
+//     } else if (winnerCheck(player2)) {
+//       gameOver = true;
+//       setTimeout(() => {alert(player2.winningMessage); }, 1);
+//     }
 //   }
 
 //   function drawMark(boxClicked) {
@@ -92,31 +140,40 @@ function game(player1, player2) {
 //   }
 
 //   function makeBoard() {
+//     console.log("New board")
 //     return [null, null, null,
 //       null, null, null,
 //       null, null, null];
 //   }
 
-//   function winnerCheck() {
-//     if ((board[0] && player1) === board[1] && board[0] === board[2]){
-//       winner = player1; 
+//   function winnerCheck(player) {
+//     if (board[0] === player && board[1] === player && board[2] === player){
 //       return true;
-//     } 
+//     } else if (board[3] === player && board[4] === player && board[5] === player){
+//       return true;
+//     } else if (board[6] === player && board[7] === player && board[8] === player){
+//       return true;
+//     } else if (board[0] === player && board[3] === player && board[6] === player){
+//       return true;
+//     } else if (board[1] === player && board[4] === player && board[7] === player){
+//       return true;
+//     } else if (board[2] === player && board[5] === player && board[8] === player){
+//       return true;
+//     } else if (board[0] === player && board[4] === player && board[8] === player){
+//       return true;
+//     } else if (board[2] === player && board[4] === player && board[6] === player){
+//       return true;
+//     }
 //   }
+
   
-// })
+// }
 
 // const gameBoard = (() => {
-//   const player1 = new Player('X');
-//   const player2 = new Player('O');
+//   const player1 = new Player('X', "Player One");
+//   const player2 = new Player('O', "Player Two");
 
-//   const btnClearBoard = document.querySelector('.btnClearBoard');
 
-//   btnClearBoard.addEventListener('click', clearBoard);
-
-//   function clearBoard() {
-//     game();
-//   }
 
 //   game(player1, player2);
 
