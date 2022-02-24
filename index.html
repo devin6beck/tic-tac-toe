@@ -11,7 +11,7 @@
   <div class="container">
     <h1>Tic Tac Toe</h1>
     <div class="scores">
-      <p>Player One: <span class="p1Score">0</span></p>
+      <p><span class="name-player-one"></span>: <span class="p1Score">0</span></p>
       <p>Player Two: <span class="p2Score">0</span></p>
     </div>
     <div class="board">
@@ -31,7 +31,22 @@
     </div>
 
     <button class="btnClearBoard">Clear Board</button>
+
+    <div class="screen-gameOver">
+      <p class="msg-container"></p>
+      <button class="btnClearBoard btn-restart">New Game</button>
+    </div>
+
+    <div class="screen-start">
+      <label for="player1">Player One Name</label>
+      <input type="text" class="player1" autofocus>
+      <label for="player2">Player Two Name</label>
+      <input type="text" class="player2">
+      <button class="btn-start">Start</button>
+    </div>
   </div>
+
+
   <script src="script.js"></script>
 </body>
 </html>

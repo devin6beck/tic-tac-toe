@@ -1,3 +1,7 @@
+*{
+  background-color: black;
+  color: white;
+}
 
 .container {
   display: flex;
@@ -19,12 +23,12 @@
   width: 60vw;
   max-width: 70vh;
   gap: 3px;
-  background-color: black;
+  background-color: white;
 }
 
 .box {
   display: flex;
-  background-color: white;
+  background-color: black;
   justify-content: center;
   align-items: center;
   font-size: 5rem;
@@ -57,3 +61,48 @@
   border-right: none;
   /* background-color: red; */
 }
+
+
+/*      Game Over Screen  & Start Screen    */
+
+.screen-gameOver,
+.screen-start {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background-color: rgba(3, 3, 3, 0.5);
+  backdrop-filter: blur(4px);
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+}
+
+.screen-start label {
+  font-size: 3rem;
+  background-color: transparent;
+}
+
+.screen-start input {
+  font-size: 2rem;
+  width: 200px;
+}
+
+.screen-gameOver {
+  display: none;
+}
+
+.btn-restart,
+.btn-start {
+  font-size: 2rem;
+  background-color: rgb(77, 73, 73);
+}
+
+.msg-container {
+  background-color: transparent;
+}
+
+

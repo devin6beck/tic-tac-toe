@@ -9,15 +9,31 @@ class Player {
   }
 }
 
-const player1 = new Player('X', "Player One");
+
+
+const player1 = new Player('X', "Player one");
 let p1Score = document.querySelector('.p1Score');
 const player2 = new Player('O', "Player Two");
 let p2Score = document.querySelector('.p2Score');
 let board = makeBoard();
 let gameOver = false;
 
+const btnNewGame = document.querySelector('.btn-restart');
 const box = document.querySelectorAll('.box');
 const btnClearBoard = document.querySelector('.btnClearBoard');
+const screenGameOver = document.querySelector('.screen-gameOver');
+const msgContainer = document.querySelector('.msg-container');
+const screenStart = document.querySelector('.screen-start');
+const btnStart = document.querySelector('.btn-start');
+
+btnStart.addEventListener('click', () => {
+  screenStart.style.display = "none";
+})
+
+btnNewGame.addEventListener('click', () => {
+  clearBoard();
+  screenGameOver.style.display = "none";
+})
 
 box.forEach(box => {
   box.addEventListener('click', drawMark, {once: true});
@@ -50,13 +66,15 @@ function drawMark(e) {
   player2.turn = (player2.turn) ? false: true;
   console.log(`board = ${board}`)
   if (winnerCheck(player1)) {
-    setTimeout(() => {alert(player1.winningMessage); }, 1);
+    setTimeout(() => {msgContainer.textContent = player1.winningMessage}, 1);
     p1Score.textContent++;
     gameOver = true;
+    screenGameOver.style.display = "flex";
   } else if (winnerCheck(player2)) {
-    setTimeout(() => {alert(player2.winningMessage); }, 1);
+    setTimeout(() => {msgContainer.textContent = player2.winningMessage }, 1);
     p2Score.textContent++;
     gameOver = true;
+    screenGameOver.style.display = "flex";
   } else if (tieCheck()) {
     setTimeout(() => {alert("It's A Tie!"); }, 1);
     gameOver = true;
