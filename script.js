@@ -132,7 +132,15 @@ const gameBoard = (() => {
       return true;
     }
   }
-  
+
+  document.addEventListener("keyup", function(e) {
+    if (e.key === "Enter") {
+      if (document.querySelector(".screen-start").style.display !== "flex") {
+        e.preventDefault();
+        btnStart.click();
+      }
+    }
+  })
 })()
 
 

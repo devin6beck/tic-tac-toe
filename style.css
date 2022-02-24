@@ -12,7 +12,8 @@
 
 .scores {
   display: flex;
-  gap: 1rem;
+  gap: 10rem;
+  font-size: 1.2rem;
 }
 
 .board {  
