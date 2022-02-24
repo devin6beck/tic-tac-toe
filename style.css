@@ -36,6 +36,13 @@
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+.btnClearBoard {
+  margin-top: 50px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  background-color: rgb(77, 73, 73);
+}
+
 .box:first-child,
 .box:nth-child(2),
 .box:nth-child(3) {
