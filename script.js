@@ -17,6 +17,8 @@ const gameBoard = (() => {
   const msgContainer = document.querySelector('.msg-container');
   const screenStart = document.querySelector('.screen-start');
   const btnStart = document.querySelector('.btn-start');
+  const p1NameField = document.querySelector(".name-player-one");
+  const p2NameField = document.querySelector(".name-player-two");
 
 
   let p1Score = document.querySelector('.p1Score');
@@ -24,12 +26,15 @@ const gameBoard = (() => {
   let board = makeBoard();
   let gameOver = false;
   let player1;
-  let player2
+  let player2;
 
   btnStart.addEventListener('click', () => {
     const p1Name = document.querySelector('.player1').value;
+    const p2Name = document.querySelector('.player2').value;
+    p1NameField.textContent = p1Name;
+    p2NameField.textContent = p2Name;
     player1 = new Player('X', p1Name);
-    player2 = new Player('O', "Player Two");
+    player2 = new Player('O', p2Name);
     screenStart.style.display = "none";
     console.log("pressed start")
   })
