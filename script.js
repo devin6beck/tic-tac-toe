@@ -29,8 +29,18 @@ const gameBoard = (() => {
   let player2;
 
   btnStart.addEventListener('click', () => {
-    const p1Name = document.querySelector('.player1').value;
-    const p2Name = document.querySelector('.player2').value;
+    let p1Name;
+    let p2Name;
+    if (document.querySelector('.player1').value.length === 0) {
+      p1Name = "Player One"
+    } else {
+      p1Name = document.querySelector('.player1').value
+    }
+    if (document.querySelector('.player2').value.length === 0) {
+      p2Name = "Player Two"
+    } else {
+      p2Name = document.querySelector('.player2').value
+    }
     p1NameField.textContent = p1Name;
     p2NameField.textContent = p2Name;
     player1 = new Player('X', p1Name);
