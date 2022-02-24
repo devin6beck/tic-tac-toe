@@ -55,6 +55,22 @@ const gameBoard = (() => {
   })
   
   box.forEach(box => {
+    
+    box.addEventListener('mouseover', () => {
+      if (box.textContent.length === 0) {
+        if (!player2.turn) {
+          box.textContent = "X"
+        } else {
+          box.textContent = "O"
+        }
+      }
+    });
+
+    box.addEventListener('mouseout', (e) => {
+      if (board[e.target.id] === null) {
+        box.textContent = ""
+      }
+    });
     box.addEventListener('click', drawMark, {once: true});
   })
   
