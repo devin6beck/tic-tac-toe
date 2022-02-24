@@ -42,6 +42,7 @@
   font-size: 1.1rem;
   font-weight: 900;
   background-color: rgb(77, 73, 73);
+  cursor: pointer;
 }
 
 .box:first-child,
