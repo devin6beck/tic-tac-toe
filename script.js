@@ -13,9 +13,10 @@ class Player {
 const screenWelcome = (() => {
   const btnStart = document.querySelector('.btn-start');
   const btnEasyComp = document.querySelector('.easy');
-
-  let p2NameField = document.querySelector(".name-player-two");
-  let p2NameInput = document.querySelector('.player2')
+  const screenStart = document.querySelector('.screen-start');
+  const p1NameField = document.querySelector(".name-player-one");
+  const p2NameField = document.querySelector(".name-player-two");
+  const p2NameInput = document.querySelector('.player2')
 
   let playHuman = true;
   let playEasy = false;
@@ -32,12 +33,8 @@ const screenWelcome = (() => {
   });
 
   function start(playHuman, playEasy) {
-    // put names in name fields
     let p1Name;
     let p2Name;
-    const p1NameField = document.querySelector(".name-player-one");
-    const p2NameField = document.querySelector(".name-player-two");
-    const screenStart = document.querySelector('.screen-start');
   
     if (document.querySelector('.player1').value.length === 0) {
       p1Name = "Player One"
@@ -58,6 +55,15 @@ const screenWelcome = (() => {
     
     gameBoard(player1, player2, playHuman, playEasy);
   }
+
+  document.addEventListener("keyup", function(e) {
+    if (e.key === "Enter") {
+      if (screenStart.style.display !== "flex") {
+        e.preventDefault();
+        btnStart.click();
+      }
+    }
+  })
 })()
 
 const gameBoard = ((player1, player2, playHuman, playEasy) => {
