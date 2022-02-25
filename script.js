@@ -124,47 +124,66 @@ function gameBoard(player1, player2, playHuman, playEasy) {
     if (gameOver) {
       return;
     }
-    if (!player2.turn) {
+    if (!player2.turn && !gameOver) {
       boxClicked.textContent = player1.mark;
       board[boxClicked.id] = player1;
-      if (!playHuman && playEasy) {
+      if (winnerCheck(player1)) {
+        msgContainer.textContent = player1.winningMessage;
+        p1Score.textContent++;
+        gameOver = true;
+        screenGameOver.style.display = "flex";
+      } else if (tieCheck()) {
+        msgContainer.textContent = "It's A Tie!";
+        gameOver = true;
+        screenGameOver.style.display = "flex";
+      }
+      if (!playHuman && playEasy && !gameOver) {
         player2.turn = true;
         computerPlay();
+        if (winnerCheck(player2)) {
+          msgContainer.textContent = player2.winningMessage;
+          p2Score.textContent++;
+          gameOver = true;
+          screenGameOver.style.display = "flex";
+        } else if (tieCheck()) {
+          msgContainer.textContent = "It's A Tie!";
+          gameOver = true;
+          screenGameOver.style.display = "flex";
+        }
         
-      }
+      } 
     } else if (playHuman && !playEasy){
       boxClicked.textContent = player2.mark;
       board[boxClicked.id] = player2;
+      if (winnerCheck(player2)) {
+        msgContainer.textContent = player2.winningMessage;
+        p2Score.textContent++;
+        gameOver = true;
+        screenGameOver.style.display = "flex";
+      } else if (tieCheck()) {
+        msgContainer.textContent = "It's A Tie!";
+        gameOver = true;
+        screenGameOver.style.display = "flex";
+      }
     } 
     player2.turn = (player2.turn) ? false: true;
 
-    if (winnerCheck(player1)) {
-      msgContainer.textContent = player1.winningMessage;
-      p1Score.textContent++;
-      gameOver = true;
-      screenGameOver.style.display = "flex";
-    } else if (winnerCheck(player2)) {
-      msgContainer.textContent = player2.winningMessage;
-      p2Score.textContent++;
-      gameOver = true;
-      screenGameOver.style.display = "flex";
-    } else if (tieCheck()) {
-      msgContainer.textContent = "It's A Tie!";
-      gameOver = true;
-      screenGameOver.style.display = "flex";
-    }
+
   }
 
   function computerPlay() {
-    
-    for (let i = 0; i < board.length; i++) {
-      if (board[i] === null) {
-        console.log(`i = ${i}`)
-        document.getElementById(`${i}`).textContent = player2.mark;
-        board[i] = player2;
-        return;
-      }
+
+    between0And9 = randomInt();
+    if (board[between0And9] === null) {
+      document.getElementById(`${between0And9}`).textContent = player2.mark;
+      board[between0And9] = player2;
+    } else {
+      computerPlay();
     }
+  }
+
+  function randomInt() { //random int between 0 an 9
+    return Math.floor(Math.random() * 10)
   }
 
   function tieCheck() {
