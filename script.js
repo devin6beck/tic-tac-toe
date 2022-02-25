@@ -72,13 +72,13 @@ function start(playHuman, playEasy) {
 
 function gameBoard(player1, player2, playHuman, playEasy) {
   const box = document.querySelectorAll('.box');
-  const btnClearBoard = document.querySelector('.btnClearBoard');
+  const btnClearBoard = document.querySelector('.btn-clear-board');
   const screenGameOver = document.querySelector('.screen-gameOver');
   const msgContainer = document.querySelector('.msg-container');
   const btnNewGame = document.querySelector('.btn-restart');
 
-  let p1Score = document.querySelector('.p1Score');
-  let p2Score = document.querySelector('.p2Score');
+  let p1Score = document.querySelector('.p1-score');
+  let p2Score = document.querySelector('.p2-score');
   let board = makeBoard();
   let gameOver = false;
 
