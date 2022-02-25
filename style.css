@@ -106,9 +106,30 @@
 }
 
 .btn-restart,
-.btn-start {
+.btn-start,
+.easy {
   font-size: 2rem;
   background-color: rgb(77, 73, 73);
+  cursor: pointer;
+}
+
+.btns-options {
+  cursor: default;
+}
+
+.comp {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.hard {
+  background-color: rgb(143, 27, 27);
+  text-decoration: line-through;
+  cursor:not-allowed;
+}
+
+.easy {
+  background-color: rgb(0, 117, 0);
 }
 
 .msg-container {
