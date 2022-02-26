@@ -165,8 +165,8 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
     }
   }
 
-  function randomInt() { //random int between 0 an 9
-    return Math.floor(Math.random() * 10)
+  function randomInt() { 
+    return Math.floor(Math.random() * 10) //random int between 0 an 9
   }
 
   function tieCheck() {
