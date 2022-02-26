@@ -121,21 +121,25 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
       return;
     }
     if (!player2.turn && !gameOver) {
-      boxClicked.textContent = player1.mark;
-      board[boxClicked.id] = player1;
-      inquireGameOver(player1, p1Score)
-      if (!playHuman && playEasy && !gameOver) {
-        player2.turn = true;
-        computerPlay();
-        inquireGameOver(player2, p2Score)
-      } 
+      if (boxClicked.textContent === "X" && boxClicked.textContent !== "O") {
+        boxClicked.textContent = player1.mark;
+        board[boxClicked.id] = player1;
+        inquireGameOver(player1, p1Score)
+
+        if (!playHuman && playEasy && !gameOver) {
+          player2.turn = true;
+          computerPlay();
+          inquireGameOver(player2, p2Score)
+        } 
+        player2.turn = (player2.turn) ? false: true;
+      }
+      
     } else if (playHuman && !playEasy){
       boxClicked.textContent = player2.mark;
       board[boxClicked.id] = player2;
       inquireGameOver(player2, p2Score)
+      player2.turn = (player2.turn) ? false: true;
     } 
-    player2.turn = (player2.turn) ? false: true;
-
 
   }
 
