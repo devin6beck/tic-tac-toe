@@ -13,6 +13,7 @@ class Player {
 const screenWelcome = (() => {
   const btnStart = document.querySelector('.btn-start');
   const btnEasyComp = document.querySelector('.easy');
+  const btnHardComp = document.querySelector('.hard');
   const screenStart = document.querySelector('.screen-start');
   const p1NameField = document.querySelector(".name-player-one");
   const p2NameField = document.querySelector(".name-player-two");
@@ -24,6 +25,14 @@ const screenWelcome = (() => {
   btnEasyComp.addEventListener('click', () => {
     playHuman = false;
     playEasy = true;
+    p2NameField.textContent = "Computer"
+    p2NameInput.value = "Computer"
+  })
+
+
+  btnHardComp.addEventListener('click', () => {
+    playHuman = false;
+    playEasy = false;
     p2NameField.textContent = "Computer"
     p2NameInput.value = "Computer"
   })
@@ -131,6 +140,13 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
           computerPlay();
           inquireGameOver(player2, p2Score)
         } 
+
+        if (!playHuman && !playEasy && !gameOver) {
+          player2.turn = true;
+          console.log("playing hard computer");
+          hardAi();
+          inquireGameOver(player2, p2Score)
+        }
         player2.turn = (player2.turn) ? false: true;
       }
       
@@ -195,6 +211,10 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
       (board[0] === player && board[4] === player && board[8] === player) ||   
       (board[2] === player && board[4] === player && board[6] === player)
     ) return true;     
+  }
+
+  function hardAi() {
+    console.log("in hard ai fucntion")
   }
 
 })

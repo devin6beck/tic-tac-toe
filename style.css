@@ -124,8 +124,6 @@
 
 .hard {
   background-color: rgb(143, 27, 27);
-  text-decoration: line-through;
-  cursor:not-allowed;
 }
 
 .easy {
