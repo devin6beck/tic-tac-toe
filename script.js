@@ -213,11 +213,8 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
       (board[2] === player.mark && board[5] === player.mark && board[8] === player.mark) || 
       (board[0] === player.mark && board[4] === player.mark && board[8] === player.mark) ||   
       (board[2] === player.mark && board[4] === player.mark && board[6] === player.mark)
-    ) {
-      return true;
-    } else {
-      return false;
-    }       
+    ) return true;
+     
   }
 
   function hardAi() {
