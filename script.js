@@ -133,7 +133,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
       if (boxClicked.textContent === player1.mark && boxClicked.textContent !== player2.mark) {
         boxClicked.textContent = player1.mark;
         board[boxClicked.id] = player1.mark;
-        console.log(`board[boxClicked.id] = ${board[boxClicked.id]}`)
+
         inquireGameOver(player1, p1Score)
 
         if (!playHuman && playEasy && !gameOver) {
@@ -144,8 +144,9 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
 
         if (!playHuman && !playEasy && !gameOver) {
           player2.turn = true;
-          console.log("playing hard computer");
-          hardAi();
+          const bestMove = hardAi()
+          board[bestMove] = player2.mark;
+          document.getElementById(`${bestMove}`).textContent = player2.mark;
           inquireGameOver(player2, p2Score)
         }
         player2.turn = (player2.turn) ? false: true;
@@ -161,7 +162,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   }
 
   function inquireGameOver(player, score) {
-    if (winnerCheck(player)) {
+    if (winnerCheck(board, player)) {
       msgContainer.textContent = player.winningMessage;
       score.textContent++;
       gameOver = true;
@@ -191,6 +192,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   }
 
   function tieCheck() {
+    console.log(board)
     let num = 0;
     for (let i = 0; i < 8; i++) {
       if (board[i] === player1.mark || board[i] === player2.mark) {
@@ -201,13 +203,12 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   } 
   
   function makeBoard() {
-    console.log("~New Board~")
     return [0, 1, 2,
             3, 4, 5,
             6, 7, 8];
   }
 
-  function winnerCheck(player) {
+  function winnerCheck(board, player) {
     if (
       (board[0] === player.mark && board[1] === player.mark && board[2] === player.mark) ||
       (board[3] === player.mark && board[4] === player.mark && board[5] === player.mark) || 
@@ -217,13 +218,91 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
       (board[2] === player.mark && board[5] === player.mark && board[8] === player.mark) || 
       (board[0] === player.mark && board[4] === player.mark && board[8] === player.mark) ||   
       (board[2] === player.mark && board[4] === player.mark && board[6] === player.mark)
-    ) return true;     
+    ) {
+      return true;
+    } else {
+      return false;
+    }       
   }
 
   function hardAi() {
-    console.log("in hard ai fucntion")
+    return (minimax(board, player2).index)
   }
 
+  function emptyIndexies(board){
+    return  board.filter(s => s != player2.mark && s != player1.mark);
+  } 
+
+  function minimax(newBoard, player){
+  
+    //available spots
+    var availSpots = emptyIndexies(newBoard);
+  
+    // checks for the terminal states such as win, lose, and tie and returning a value accordingly
+    if (winnerCheck(newBoard, player1)){
+       return {score:-10};
+    }
+    else if (winnerCheck(newBoard, player2)){
+      return {score:10};
+    }
+    else if (availSpots.length === 0){
+      return {score:0};
+    }
+  
+  // an array to collect all the objects
+    let moves = [];
+  
+    // loop through available spots
+    for (var i = 0; i < availSpots.length; i++){
+      //create an object for each and store the index of that spot that was stored as a number in the object's index key
+      var move = {};
+      move.index = newBoard[availSpots[i]];
+  
+      // set the empty spot to the current player
+      newBoard[availSpots[i]] = player.mark;
+  
+      //if collect the score resulted from calling minimax on the opponent of the current player
+      if (player == player2){
+        var result = minimax(newBoard, player1);
+        move.score = result.score;
+      }
+      else{
+        var result = minimax(newBoard, player2);
+        move.score = result.score;
+      }
+  
+      //reset the spot to empty
+      newBoard[availSpots[i]] = move.index;
+  
+      // push the object to the array
+      moves.push(move);
+    }
+  
+  // if it is the computer's turn loop over the moves and choose the move with the highest score
+    var bestMove;
+    if(player === player2){
+      var bestScore = -10000;
+      for(var i = 0; i < moves.length; i++){
+        if(moves[i].score > bestScore){
+          bestScore = moves[i].score;
+          bestMove = i;
+        }
+      }
+    }else{
+  
+  // else loop over the moves and choose the move with the lowest score
+      var bestScore = 10000;
+      for(var i = 0; i < moves.length; i++){
+        if(moves[i].score < bestScore){
+          bestScore = moves[i].score;
+          bestMove = i;
+        }
+      }
+    }
+  
+  // return the chosen move (object) from the array to the higher depth
+    return moves[bestMove];
+  }
 })
 
 
