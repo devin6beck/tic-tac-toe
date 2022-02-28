@@ -179,16 +179,20 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   function computerPlay() {
 
     between0And9 = randomInt();
-    if (board[between0And9] === null) {
-      document.getElementById(`${between0And9}`).textContent = player2.mark;
-      board[between0And9] = player2;
-    } else {
+    console.log(`between0And9 = ${between0And9}`)
+    console.log(`typeof(board[between0And9]) = ${typeof(board[between0And9])}`)
+    if (board[between0And9] instanceof String || typeof(board[between0And9]) === "string") {
+
       computerPlay();
+    } else {
+      document.getElementById(`${between0And9}`).textContent = player2.mark;
+      board[between0And9] = player2.mark;
+
     }
   }
 
   function randomInt() { 
-    return Math.floor(Math.random() * 10) //random int between 0 an 9
+    return Math.floor(Math.random()* 8 +1); //random int between 0 an 9
   }
 
   function tieCheck() {
