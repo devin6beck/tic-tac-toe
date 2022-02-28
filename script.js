@@ -138,7 +138,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
 
         if (!playHuman && playEasy && !gameOver) {
           player2.turn = true;
-          computerPlay();
+          cpuEasyAi();
           inquireGameOver(player2, p2Score)
         } 
 
@@ -176,17 +176,16 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
     }
   }
 
-  function computerPlay() {
+  function cpuEasyAi() {
     
     randomNum = randomZeroThroughEight();
-    console.log(randomNum)
-    if (board[randomNum] instanceof String || typeof(board[randomNum]) === "string") {
 
-      computerPlay();
+    if (board[randomNum] instanceof String ||
+      typeof(board[randomNum]) === "string") {
+      cpuEasyAi();
     } else {
       document.getElementById(`${randomNum}`).textContent = player2.mark;
       board[randomNum] = player2.mark;
-
     }
   }
 
