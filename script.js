@@ -177,26 +177,28 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   }
 
   function computerPlay() {
-
-    between0And9 = randomInt();
-    if (board[between0And9] instanceof String || typeof(board[between0And9]) === "string") {
+    
+    randomNum = randomZeroThroughEight();
+    console.log(randomNum)
+    if (board[randomNum] instanceof String || typeof(board[randomNum]) === "string") {
 
       computerPlay();
     } else {
-      document.getElementById(`${between0And9}`).textContent = player2.mark;
-      board[between0And9] = player2.mark;
+      document.getElementById(`${randomNum}`).textContent = player2.mark;
+      board[randomNum] = player2.mark;
 
     }
   }
 
-  function randomInt() { 
-    return Math.floor(Math.random()* 8 +1); //random int between 0 an 9
+  // Returns random integer from 0 up to not including 9
+  function randomZeroThroughEight() { 
+    return Math.floor(Math.random() * 9); 
   }
 
   function tieCheck() {
     return (emptyIndexies(board).length === 0)
   } 
-  
+ 
   function makeBoard() {
     return [0, 1, 2,
             3, 4, 5,
