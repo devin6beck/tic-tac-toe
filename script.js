@@ -97,15 +97,15 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
     box.addEventListener('mouseover', () => {
       if (box.textContent.length === 0) {
         if (!player2.turn) {
-          box.textContent = "X"
+          box.textContent = player1.mark
         } else {
-          box.textContent = "O"
+          box.textContent = player2.mark
         }
       }
     });
 
     box.addEventListener('mouseout', (e) => {
-      if (board[e.target.id] === null) {
+      if (board[e.target.id] !== player1.mark && board[e.target.id] !== player2.mark) {
         box.textContent = ""
       }
     });
@@ -130,9 +130,10 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
       return;
     }
     if (!player2.turn && !gameOver) {
-      if (boxClicked.textContent === "X" && boxClicked.textContent !== "O") {
+      if (boxClicked.textContent === player1.mark && boxClicked.textContent !== player2.mark) {
         boxClicked.textContent = player1.mark;
-        board[boxClicked.id] = player1;
+        board[boxClicked.id] = player1.mark;
+        console.log(`board[boxClicked.id] = ${board[boxClicked.id]}`)
         inquireGameOver(player1, p1Score)
 
         if (!playHuman && playEasy && !gameOver) {
@@ -152,7 +153,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
       
     } else if (playHuman && !playEasy){
       boxClicked.textContent = player2.mark;
-      board[boxClicked.id] = player2;
+      board[boxClicked.id] = player2.mark;
       inquireGameOver(player2, p2Score)
       player2.turn = (player2.turn) ? false: true;
     } 
@@ -190,26 +191,32 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   }
 
   function tieCheck() {
-    return !board.includes(null)
-  }
+    let num = 0;
+    for (let i = 0; i < 8; i++) {
+      if (board[i] === player1.mark || board[i] === player2.mark) {
+        num++;
+      }
+    }
+    return (num === 8);
+  } 
   
   function makeBoard() {
     console.log("~New Board~")
-    return [null, null, null,
-      null, null, null,
-      null, null, null];
+    return [0, 1, 2,
+            3, 4, 5,
+            6, 7, 8];
   }
 
   function winnerCheck(player) {
     if (
-      (board[0] === player && board[1] === player && board[2] === player) ||
-      (board[3] === player && board[4] === player && board[5] === player) || 
-      (board[6] === player && board[7] === player && board[8] === player) || 
-      (board[0] === player && board[3] === player && board[6] === player) || 
-      (board[1] === player && board[4] === player && board[7] === player) ||  
-      (board[2] === player && board[5] === player && board[8] === player) || 
-      (board[0] === player && board[4] === player && board[8] === player) ||   
-      (board[2] === player && board[4] === player && board[6] === player)
+      (board[0] === player.mark && board[1] === player.mark && board[2] === player.mark) ||
+      (board[3] === player.mark && board[4] === player.mark && board[5] === player.mark) || 
+      (board[6] === player.mark && board[7] === player.mark && board[8] === player.mark) || 
+      (board[0] === player.mark && board[3] === player.mark && board[6] === player.mark) || 
+      (board[1] === player.mark && board[4] === player.mark && board[7] === player.mark) ||  
+      (board[2] === player.mark && board[5] === player.mark && board[8] === player.mark) || 
+      (board[0] === player.mark && board[4] === player.mark && board[8] === player.mark) ||   
+      (board[2] === player.mark && board[4] === player.mark && board[6] === player.mark)
     ) return true;     
   }
 
