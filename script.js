@@ -144,7 +144,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
 
         if (!playHuman && !playEasy && !gameOver) {
           player2.turn = true;
-          const bestMove = hardAi()
+          const bestMove = cpuImpossibleAi()
           board[bestMove] = player2.mark;
           document.getElementById(`${bestMove}`).textContent = player2.mark;
           inquireGameOver(player2, p2Score)
@@ -218,7 +218,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
      
   }
 
-  function hardAi() {
+  function cpuImpossibleAi() {
     return (minimax(board, player2).index)
   }
 
