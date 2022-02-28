@@ -179,8 +179,6 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   function computerPlay() {
 
     between0And9 = randomInt();
-    console.log(`between0And9 = ${between0And9}`)
-    console.log(`typeof(board[between0And9]) = ${typeof(board[between0And9])}`)
     if (board[between0And9] instanceof String || typeof(board[between0And9]) === "string") {
 
       computerPlay();
