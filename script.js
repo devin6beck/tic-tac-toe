@@ -192,14 +192,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   }
 
   function tieCheck() {
-    console.log(board)
-    let num = 0;
-    for (let i = 0; i < 8; i++) {
-      if (board[i] === player1.mark || board[i] === player2.mark) {
-        num++;
-      }
-    }
-    return (num === 8);
+    return (emptyIndexies(board).length === 0)
   } 
   
   function makeBoard() {
