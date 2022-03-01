@@ -128,45 +128,38 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   function newGame() {
     if (!gameOver) {
       if (controller1 !== 'human') {
-        if (controller1 === 'CPU(easy)') {
-          cpuEasyAi(player1)
-          inquireGameOver(player1, p1Score)
-          player2.turn = true;
+        if (controller1 === 'CPU(easy)' && !player2.turn) {
+          setTimeout(dealyedEasyAi, 1000) 
         }
 
-        if (controller1 === 'CPU(medium)') {
-          cpuMediumAi(player1)
-          inquireGameOver(player1, p1Score)
-          player2.turn = true;
+        if (controller1 === 'CPU(medium)' && !player2.turn) {
+          setTimeout(dealyedMediumAi, 1000) 
         }
 
-        if (controller1 === 'CPU(hard)') {
-          cpuHardAi(player1)
-          inquireGameOver(player1, p1Score)
-          player2.turn = true;
+        if (controller1 === 'CPU(hard)' && !player2.turn) {
+          setTimeout(dealyedHardAi, 1000) 
         }
 
-        if (controller1 === 'CPU(impossible)') {
-          cpuImpossibleAi(player1)
-          inquireGameOver(player1, p1Score)
-          player2.turn = true;
+        if (controller1 === 'CPU(impossible)' && !player2.turn) {
+          setTimeout(dealyedImpossibleAi, 1000)
         }
         
-        if (controller2 !== 'human' && !gameOver) {
+        if (controller2 !== 'human' && !gameOver && player2.turn) {
           if (controller2 === 'CPU(easy)') {
-            setTimeout(dealyedEasyAi, 1000) 
+            console.log(`player2.turn = ${player2.turn}`)
+            setTimeout(dealyedEasyAi2, 1000) 
           }
     
           if (controller2 === 'CPU(medium)') {
-            setTimeout(dealyedMediumAi, 1000) 
+            setTimeout(dealyedMediumAi2, 1000) 
           }
     
           if (controller2 === 'CPU(hard)') {
-            setTimeout(dealyedHardAi, 1000) 
+            setTimeout(dealyedHardAi2, 1000) 
           }
     
           if (controller2 === 'CPU(impossible)') {
-            setTimeout(dealyedImpossibleAi, 1000) 
+            setTimeout(dealyedImpossibleAi2, 1000) 
           }
         }
       }
@@ -174,31 +167,66 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   }
 
-  function dealyedEasyAi() {
-    cpuEasyAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    newGame()
+  function dealyedEasyAi2() {
+    if (!gameOver) {
+      cpuEasyAi(player2)
+      inquireGameOver(player2, p2Score)
+      player2.turn = false;
+      console.log(`easy2 played`)
+      newGame()
+    }
   }
 
-  function dealyedMediumAi() {
+  function dealyedMediumAi2() {
     cpuMediumAi(player2)
     inquireGameOver(player2, p2Score)
     player2.turn = false;
     newGame()
   }
 
-  function dealyedHardAi() {
+  function dealyedHardAi2() {
     cpuHardAi(player2)
     inquireGameOver(player2, p2Score)
     player2.turn = false;
     newGame()
   }
 
-  function dealyedImpossibleAi() {
+  function dealyedImpossibleAi2() {
     cpuImpossibleAi(player2)
     inquireGameOver(player2, p2Score)
     player2.turn = false;
+    newGame()
+  }
+
+  function dealyedEasyAi() {
+    console.log(`easy1 played`)
+    console.log(`gameOVer = ${gameOver}`)
+    if (!gameOver) {
+      cpuEasyAi(player1)
+      inquireGameOver(player1, p1Score)
+      player2.turn = true;
+      newGame()
+    }
+  }
+
+  function dealyedMediumAi() {
+    cpuMediumAi(player1)
+    inquireGameOver(player1, p1Score)
+    player2.turn = true;
+    newGame()
+  }
+
+  function dealyedHardAi() {
+    cpuHardAi(player1)
+    inquireGameOver(player1, p1Score)
+    player2.turn = true;
+    newGame()
+  }
+
+  function dealyedImpossibleAi() {
+    cpuImpossibleAi(player1)
+    inquireGameOver(player1, p1Score)
+    player2.turn = true;
     newGame()
   }
 
@@ -382,14 +410,15 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   function cpuEasyAi(player) {
     
     randomNum = randomZeroThroughEight();
-    if (board[randomNum] instanceof String ||
-      typeof(board[randomNum]) === "string") {
+    if (board[randomNum] instanceof String || typeof(board[randomNum]) === "string" && !gameOver) {
+      console.log(`$$$$#$#$`)
       cpuEasyAi(player);
     } else {
-      console.log(`player = ${player}`)
-      document.getElementById(`${randomNum}`).textContent = player.mark;
-      board[randomNum] = player.mark;
-      
+      if (!gameOver) {
+        console.log(`player = ${player}`)
+        document.getElementById(`${randomNum}`).textContent = player.mark;
+        board[randomNum] = player.mark;
+      }
     }
   }
 
