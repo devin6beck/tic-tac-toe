@@ -14,9 +14,15 @@ html{
 .btn-back {
   align-self: baseline;
   margin-left: 30vw;
-  width: 50px;
+  width: 75px;
+  
+  min-height:fit-content;
   font-weight: 900;
-  font-size: large;
+  font-size: 25px;
+  background-color: rgb(77, 73, 73);
+  color: white;
+  cursor: pointer;
+  vertical-align: top;
 }
 .scores {
   display: flex;
@@ -95,10 +101,7 @@ html{
   background-color: rgba(3, 3, 3, 0.5);
   backdrop-filter: blur(4px);
   padding-top: 11%;
-
-
-  display: none;
-  
+ 
 }
 .screen-gameover {
   display: none;
@@ -115,7 +118,7 @@ html{
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   background-color: transparent;
 }
 

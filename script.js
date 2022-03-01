@@ -117,6 +117,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   const screenGameOver = document.querySelector('.screen-gameover');
   const msgContainer = document.querySelector('.msg-container');
   const btnNewGame = document.querySelector('.btn-restart');
+  const btnBack = document.querySelector('.btn-back');
 
   let p1Score = document.querySelector('.p1-score');
   let p2Score = document.querySelector('.p2-score');
@@ -271,7 +272,13 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       box.addEventListener('click', drawMark);
     })
   }
+
   btnClearBoard.addEventListener('click', clearBoard);
+  
+  btnBack.addEventListener('click', () => {
+    console.log(`back hit`)
+    window.location.reload()
+  })
 
   function clearBoard() {
     player2.turn = false;
