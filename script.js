@@ -49,10 +49,6 @@ const screenWelcome = (() => {
           controller2 = 'human';
         }
       }
-      console.log("Checked: "+this.checked);
-      console.log("Name: "+this.name);
-      console.log("Value: "+this.value);
-      console.log("Parent: "+this.parent);
     },0);
 
   btnStart.addEventListener('click', () =>{
@@ -152,7 +148,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
         if (controller2 !== 'human' && !gameOver && player2.turn) {
           
           if (controller2 === 'CPU(easy)') {
-            console.log(`player2.turn = ${player2.turn}`)
             setTimeout(dealyedEasyAi2, 1000) 
           }
     
@@ -178,7 +173,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       cpuEasyAi(player2)
       inquireGameOver(player2, p2Score)
       player2.turn = false;
-      console.log(`easy2 played`)
       if (controller1 !== 'human' && controller2 !== 'human') {
         newGame()
       }
@@ -213,8 +207,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   }
 
   function dealyedEasyAi() {
-    console.log(`easy1 played`)
-    console.log(`gameOVer = ${gameOver}`)
     if (!gameOver) {
       cpuEasyAi(player1)
       inquireGameOver(player1, p1Score)
@@ -281,7 +273,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   btnClearBoard.addEventListener('click', clearBoard);
   
   btnBack.addEventListener('click', () => {
-    console.log(`back hit`)
     window.location.reload()
   })
 
@@ -421,11 +412,9 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     
     randomNum = randomZeroThroughEight();
     if (board[randomNum] instanceof String || typeof(board[randomNum]) === "string" && !gameOver) {
-      console.log(`$$$$#$#$`)
       cpuEasyAi(player);
     } else {
       if (!gameOver) {
-        console.log(`player = ${player}`)
         document.getElementById(`${randomNum}`).textContent = player.mark;
         board[randomNum] = player.mark;
       }
@@ -434,7 +423,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   function cpuMediumAi(player) {
     const randomNum = randomInteger();
-    console.log(`randomNum = ${randomNum}`);
     if (randomNum <= 5) {
       cpuEasyAi(player);
     } else {
@@ -444,7 +432,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   function cpuHardAi(player) {
     const randomNum = randomInteger();
-    console.log(`randomNum = ${randomNum}`);
     if (randomNum <= 2) {
       cpuEasyAi(player);
     } else {
