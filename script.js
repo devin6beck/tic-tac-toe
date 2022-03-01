@@ -533,37 +533,3 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     return moves[bestMove];
   }
 })
-
-
-
-
-
-    // if (!player2.turn && !gameOver) {
-    //   if (boxClicked.textContent === player1.mark && boxClicked.textContent !== player2.mark) {
-    //     boxClicked.textContent = player1.mark;
-    //     board[boxClicked.id] = player1.mark;
-
-    //     inquireGameOver(player1, p1Score)
-
-    //     if (!playHuman && playEasy && !gameOver) {
-    //       player2.turn = true;
-    //       cpuEasyAi();
-    //       inquireGameOver(player2, p2Score)
-    //     } 
-
-    //     if (!playHuman && !playEasy && !gameOver) {
-    //       player2.turn = true;
-    //       const bestMove = cpuImpossibleAi()
-    //       board[bestMove] = player2.mark;
-    //       document.getElementById(`${bestMove}`).textContent = player2.mark;
-    //       inquireGameOver(player2, p2Score)
-    //     }
-    //     player2.turn = (player2.turn) ? false: true;
-    //   }
-      
-    // } else if (playHuman && !playEasy){
-    //   boxClicked.textContent = player2.mark;
-    //   board[boxClicked.id] = player2.mark;
-    //   inquireGameOver(player2, p2Score)
-    //   player2.turn = (player2.turn) ? false: true;
-    // } 
