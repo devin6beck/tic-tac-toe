@@ -1,4 +1,4 @@
-*{
+html{
   background-color: black;
   color: white;
 }
@@ -8,6 +8,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .scores {
@@ -33,7 +34,7 @@
   justify-content: center;
   align-items: center;
   font-size: 5rem;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
   cursor: default;
 }
 
@@ -75,7 +76,109 @@
 
 /*      Game Over Screen  & Start Screen    */
 
-.screen-gameOver,
+.screen-start,
+.screen-gameover {
+  display: flex;
+  z-index: 999;
+  flex-direction: column;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  background-color: rgba(3, 3, 3, 0.5);
+  backdrop-filter: blur(4px);
+  padding-top: 11%;
+  
+}
+.screen-gameover {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  font-weight: 900;
+  gap: 20px;
+}
+
+.screen-start p {
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+h2 {
+  font-size: 2rem;
+  background-color: transparent;
+}
+
+.player-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: transparent;
+}
+
+.radio-options {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.name-container {
+  font-size: 2rem;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.name-container input{
+  font-size: 1.5rem;
+  width: 50%;
+  height: 75%;
+  border: 1px solid gray;
+  background-color: black;
+  color: white;
+}
+
+.btn-start,
+.btn-restart,
+.btn-clear-board {
+  font-size: 2rem;
+  background-color: rgb(77, 73, 73);
+  color: rgb(31, 199, 211);
+  cursor: pointer;
+  margin-top: 20px;
+}
+.btn-start {
+  margin-top: 70px;
+}
+
+.btn-human {
+  color: rgb(252, 177, 80);
+}
+
+.btn-easy {
+  color: rgb(68, 241, 68);
+}
+
+.btn-medium {
+  color: yellow;
+}
+
+.btn-hard {
+  color: rgb(240, 117, 36);
+}
+
+.btn-impossible {
+  color: rgb(221, 28, 28);
+}
+
+
+/* .player-options label {
+  font-size: 2rem;
+} */
+
+
+/* .screen-gameOver,
 .screen-start {
   display: flex;
   flex-direction: column;
@@ -132,6 +235,6 @@
 
 .msg-container {
   background-color: transparent;
-}
+} */
 
 

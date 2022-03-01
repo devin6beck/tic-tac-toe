@@ -32,21 +32,53 @@
 
     <button class="btn-clear-board">Clear Board</button>
 
-    <div class="screen-gameOver">
+    <div class="screen-gameover">
       <p class="msg-container"></p>
       <button class="btn-restart btn-clear-board">New Game</button>
     </div>
 
     <div class="screen-start">
-      <label for="player1">Player One Name</label>
-      <input type="text" class="player1" autofocus>
-      <label for="player2">Player Two Name</label>
-      <input type="text" class="player2">
-      <div class="btns-options">
-        <button class="hard comp">Hard Computer</button>
-        <button class="btn-start">Start</button>
-        <button class="easy comp">Easy Computer</button>
+      <h2>Tic Tac Toe</h2>
+      <div class="player-options">
+        <div class="name-container">
+          <label for="player1">Name:</label>
+          <input type="text" class="input-player1 name" autofocus>
+          <span>X's</span>
+        </div>
+        <div class="radio-options">
+          <input type="radio" name="player1" id="human-player1" value="human" checked>
+          <label for="human-player1" class="btn-human">Human</label>
+          <input type="radio" name="player1" id="cpu-easy-player1" value="CPU(easy)">
+          <label for="cpu-easy-player1" class="btn-easy">CPU(easy)</label>
+          <input type="radio" name="player1" id="cpu-medium-player1" value="CPU(medium)">
+          <label for="cpu-medium-player1" class="btn-medium">CPU(medium)</label>
+          <input type="radio" name="player1" id="cpu-hard-player1" value="CPU(hard)">
+          <label for="cpu-hard-player1" class="btn-hard">CPU(hard)</label>
+          <input type="radio" name="player1" id="cpu-impossible-player1" value="CPU(impossible)">
+          <label for="cpu-impossible-player1" class="btn-impossible">CPU(impossible)</label>
+        </div>
       </div>
+      <p>VS</p>
+      <div class="player-options">
+        <div class="name-container">
+          <label for="player2">Name:</label>
+          <input type="text" class="input-player2 name" autofocus>
+          <span>O's</span>
+        </div>
+        <div class="radio-options">
+          <input type="radio" name="player2" id="human-player2" value="human" checked>
+          <label for="human-player2" class="btn-human">Human</label>
+          <input type="radio" name="player2" id="cpu-easy-player2" value="CPU(easy)">
+          <label for="cpu-easy-player2" class="btn-easy">CPU(easy)</label>
+          <input type="radio" name="player2" id="cpu-medium-player2" value="CPU(medium)">
+          <label for="cpu-medium-player2" class="btn-medium">CPU(medium)</label>
+          <input type="radio" name="player2" id="cpu-hard-player2" value="CPU(hard)">
+          <label for="cpu-hard-player2" class="btn-hard">CPU(hard)</label>
+          <input type="radio" name="player2" id="cpu-impossible-player2" value="CPU(impossible)">
+          <label for="cpu-impossible-player2" class="btn-impossible">CPU(impossible)</label>
+        </div>
+      </div>
+      <button class="btn-start">START</button>
     </div>
   </div>
 

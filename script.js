@@ -4,7 +4,7 @@ class Player {
     this.mark =  mark;
     this.name = name;
     this.turn = false;
-    this.wins = 0;
+    // this.wins = 0;
     this.winningMessage = `${name} Wins!`
     this.score = 0;
   }
@@ -12,57 +12,65 @@ class Player {
 
 const screenWelcome = (() => {
   const btnStart = document.querySelector('.btn-start');
-  const btnEasyComp = document.querySelector('.easy');
+  const btnEasyComp = document.getElementById('cpu-easy-player1');
   const btnHardComp = document.querySelector('.hard');
   const screenStart = document.querySelector('.screen-start');
   const p1NameField = document.querySelector(".name-player-one");
   const p2NameField = document.querySelector(".name-player-two");
-  const p2NameInput = document.querySelector('.player2')
+  const p1NameInput = document.querySelector('.input-player1')
+  const p2NameInput = document.querySelector('.input-player2')
 
-  let playHuman = true;
-  let playEasy = false;
+  let controller1 = 'human'
+  let controller2 = 'human'
 
-  btnEasyComp.addEventListener('click', () => {
-    playHuman = false;
-    playEasy = true;
-    p2NameField.textContent = "Computer"
-    p2NameInput.value = "Computer"
-  })
-
-
-  btnHardComp.addEventListener('click', () => {
-    playHuman = false;
-    playEasy = false;
-    p2NameField.textContent = "Computer"
-    p2NameInput.value = "Computer"
-  })
+  let inputs=document.querySelectorAll("input[type=radio]");
+    x=inputs.length;
+    while(x--)
+    inputs[x].addEventListener("change",function(){
+      if (this.name === 'player1') {
+        if(this.value !== 'human') {
+          p1NameField.textContent = this.value;
+          p1NameInput.value = this.value;
+          controller1 = this.value
+        } else {
+          p1NameField.textContent = "";
+          p1NameInput.value = "";
+          controller1 = 'human';
+        }
+      }
+      if (this.name === 'player2') {
+        if(this.value !== 'human') {
+          p2NameField.textContent = this.value;
+          p2NameInput.value = this.value;
+          controller2 = this.value;  
+        } else {
+          p2NameField.textContent = "";
+          p2NameInput.value = "";
+          controller2 = 'human';
+        }
+      }
+      console.log("Checked: "+this.checked);
+      console.log("Name: "+this.name);
+      console.log("Value: "+this.value);
+      console.log("Parent: "+this.parent);
+    },0);
 
   btnStart.addEventListener('click', () =>{
-    start(playHuman, playEasy)
+    start(controller1, controller2)
   });
 
-  function start(playHuman, playEasy) {
-    let p1Name;
-    let p2Name;
-  
-    if (document.querySelector('.player1').value.length === 0) {
-      p1Name = "Player One"
-    } else {
-      p1Name = document.querySelector('.player1').value
-    }
-    if (document.querySelector('.player2').value.length === 0) {
-      p2Name = "Player Two"
-    } else {
-      p2Name = document.querySelector('.player2').value
-    }
-  
+
+
+  function start(controller1, controller2) {
+    const p1Name = setP1Name();
+    const p2Name = setP2Name();
+    
     p1NameField.textContent = p1Name;
     p2NameField.textContent = p2Name;
     const player1 = new Player('X', p1Name);
     const player2 = new Player('O', p2Name);
     screenStart.style.display = "none";
-    
-    gameBoard(player1, player2, playHuman, playEasy);
+    gameBoard(player1, player2, controller1, controller2);
   }
 
   document.addEventListener("keyup", function(e) {
@@ -73,12 +81,40 @@ const screenWelcome = (() => {
       }
     }
   })
+
+  function setP1Name() {
+    radioChecked = document.querySelector(`input[name="player1"]:checked`).value;
+    if (radioChecked === "human") {
+      if (document.querySelector('.input-player1').value.length === 0) {
+        return "Player One"
+      } else {
+        return document.querySelector('.input-player1').value
+      }
+    } else {
+      return radioChecked
+    }
+  }
+
+  function setP2Name() {
+    radioChecked = document.querySelector(`input[name="player2"]:checked`).value;
+    if (radioChecked === "human") {
+      if (document.querySelector('.input-player2').value.length === 0) {
+        return "Player Two"
+      } else {
+        return document.querySelector('.input-player2').value
+      }
+    } else {
+      return radioChecked
+    }
+  }
+
+  
 })()
 
-const gameBoard = ((player1, player2, playHuman, playEasy) => {
+const gameBoard = ((player1, player2, controller1, controller2) => {
   const box = document.querySelectorAll('.box');
   const btnClearBoard = document.querySelector('.btn-clear-board');
-  const screenGameOver = document.querySelector('.screen-gameOver');
+  const screenGameOver = document.querySelector('.screen-gameover');
   const msgContainer = document.querySelector('.msg-container');
   const btnNewGame = document.querySelector('.btn-restart');
 
@@ -87,7 +123,35 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
   let board = makeBoard();
   let gameOver = false;
 
+  newGame();
 
+  function newGame() {
+    if (controller1 !== 'human') {
+      if (controller1 === 'CPU(easy)') {
+        cpuEasyAi(player1)
+        inquireGameOver(player1, p1Score)
+        player2.turn = true;
+      }
+
+      if (controller1 === 'CPU(medium)') {
+        cpuMediumAi(player1)
+        inquireGameOver(player1, p1Score)
+        player2.turn = true;
+      }
+
+      if (controller1 === 'CPU(hard)') {
+        cpuHardAi(player1)
+        inquireGameOver(player1, p1Score)
+        player2.turn = true;
+      }
+
+      if (controller1 === 'CPU(impossible)') {
+        cpuImpossibleAi(player1)
+        inquireGameOver(player1, p1Score)
+        player2.turn = true;
+      }
+    }
+  }
   btnNewGame.addEventListener('click', () => {
     clearBoard();
     screenGameOver.style.display = "none";
@@ -122,6 +186,7 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
       box.addEventListener('click', drawMark, {once: true});
       box.textContent = "";
     })
+    newGame()
   }
 
   function drawMark(e) {
@@ -129,37 +194,92 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
     if (gameOver) {
       return;
     }
-    if (!player2.turn && !gameOver) {
-      if (boxClicked.textContent === player1.mark && boxClicked.textContent !== player2.mark) {
+  
+    if (!player2.turn) {
+      if(controller1 === 'human') {
+        if (boxClicked.textContent === player1.mark && boxClicked.textContent !== player2.mark) {
         boxClicked.textContent = player1.mark;
         board[boxClicked.id] = player1.mark;
-
         inquireGameOver(player1, p1Score)
+        player2.turn = true;
 
-        if (!playHuman && playEasy && !gameOver) {
-          player2.turn = true;
-          cpuEasyAi();
+        if (controller2 === 'CPU(easy)' && !gameOver && player2.turn) {
+          console.log(`play for easy as ${player2}`)
+          console.log(`player2.mark = ${player2.mark}`)
+          cpuEasyAi(player2);
           inquireGameOver(player2, p2Score)
-        } 
-
-        if (!playHuman && !playEasy && !gameOver) {
-          player2.turn = true;
-          const bestMove = cpuImpossibleAi()
-          board[bestMove] = player2.mark;
-          document.getElementById(`${bestMove}`).textContent = player2.mark;
-          inquireGameOver(player2, p2Score)
+          player2.turn = false;
         }
-        player2.turn = (player2.turn) ? false: true;
+        if (controller2 === 'CPU(medium)' && !gameOver && player2.turn) {
+          cpuMediumAi(player2)
+          inquireGameOver(player2, p2Score)
+          player2.turn = false;
+        }
+
+        if (controller2 === 'CPU(hard)' && !gameOver && player2.turn) {
+          cpuHardAi(player2)
+          inquireGameOver(player2, p2Score)
+          player2.turn = false;
+        }
+
+        if (controller2 === 'CPU(impossible)' && !gameOver && player2.turn) {
+          cpuImpossibleAi(player2)
+          inquireGameOver(player2, p2Score)
+          player2.turn = false;
+        }
+
+        } 
       }
-      
-    } else if (playHuman && !playEasy){
-      boxClicked.textContent = player2.mark;
-      board[boxClicked.id] = player2.mark;
-      inquireGameOver(player2, p2Score)
-      player2.turn = (player2.turn) ? false: true;
+
     } 
 
+    if (player2.turn) {
+      if(controller2 === 'human' && controller1 === 'human') {
+        if (boxClicked.textContent === player2.mark && boxClicked.textContent !== player1.mark) {
+        boxClicked.textContent = player2.mark;
+        board[boxClicked.id] = player2.mark;
+        inquireGameOver(player2, p2Score)
+        player2.turn = false;
+        } 
+      }
+      
+      if (controller2 === 'human' && controller1 !=='human') {
+        if (boxClicked.textContent === player2.mark && boxClicked.textContent !== player1.mark) {
+          boxClicked.textContent = player2.mark;
+          board[boxClicked.id] = player2.mark;
+          inquireGameOver(player2, p2Score)
+          player2.turn = false;
+
+          if (controller1 === 'CPU(easy)' && !player2.turn && !gameOver) {
+            cpuEasyAi(player1);
+            inquireGameOver(player1, p1Score)
+            player2.turn = true;
+          }
+
+          if (controller1 === 'CPU(medium)' && !player2.turn && !gameOver) {
+            cpuMediumAi(player1);
+            inquireGameOver(player1, p1Score)
+            player2.turn = true;
+          }
+
+          if (controller1 === 'CPU(hard)' && !player2.turn && !gameOver) {
+            cpuHardAi(player1);
+            inquireGameOver(player1, p1Score)
+            player2.turn = true;
+          }
+
+          if (controller1 === 'CPU(impossible)' && !player2.turn && !gameOver) {
+            cpuImpossibleAi(player1);
+            inquireGameOver(player1, p1Score)
+            player2.turn = true;
+          }
+
+        }
+
+      }
+    }
   }
+
 
   function inquireGameOver(player, score) {
     if (winnerCheck(board, player)) {
@@ -176,17 +296,8 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
     }
   }
 
-  function cpuEasyAi() {
-    
-    randomNum = randomZeroThroughEight();
-
-    if (board[randomNum] instanceof String ||
-      typeof(board[randomNum]) === "string") {
-      cpuEasyAi();
-    } else {
-      document.getElementById(`${randomNum}`).textContent = player2.mark;
-      board[randomNum] = player2.mark;
-    }
+  function randomInteger() {
+    return Math.random() * (9) + 1;
   }
 
   // Returns random integer from 0 up to not including 9
@@ -217,9 +328,44 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
     ) return true;
      
   }
+  function cpuEasyAi(player) {
+    
+    randomNum = randomZeroThroughEight();
+    if (board[randomNum] instanceof String ||
+      typeof(board[randomNum]) === "string") {
+      cpuEasyAi(player);
+    } else {
+      console.log(`player = ${player}`)
+      document.getElementById(`${randomNum}`).textContent = player.mark;
+      board[randomNum] = player.mark;
+      
+    }
+  }
 
-  function cpuImpossibleAi() {
-    return (minimax(board, player2).index)
+  function cpuMediumAi(player) {
+    const randomNum = randomInteger();
+    console.log(`randomNum = ${randomNum}`);
+    if (randomNum <= 5) {
+      cpuEasyAi(player);
+    } else {
+      cpuImpossibleAi(player)
+    }
+  }
+
+  function cpuHardAi(player) {
+    const randomNum = randomInteger();
+    console.log(`randomNum = ${randomNum}`);
+    if (randomNum <= 2) {
+      cpuEasyAi(player);
+    } else {
+      cpuImpossibleAi(player)
+    }
+  }
+
+  function cpuImpossibleAi(player) {
+    let bestMove = (minimax(board, player).index)
+    document.getElementById(bestMove).textContent = player.mark;
+    board[bestMove] = player.mark;
   }
 
   function emptyIndexies(board){
@@ -302,3 +448,32 @@ const gameBoard = ((player1, player2, playHuman, playEasy) => {
 
 
 
+    // if (!player2.turn && !gameOver) {
+    //   if (boxClicked.textContent === player1.mark && boxClicked.textContent !== player2.mark) {
+    //     boxClicked.textContent = player1.mark;
+    //     board[boxClicked.id] = player1.mark;
+
+    //     inquireGameOver(player1, p1Score)
+
+    //     if (!playHuman && playEasy && !gameOver) {
+    //       player2.turn = true;
+    //       cpuEasyAi();
+    //       inquireGameOver(player2, p2Score)
+    //     } 
+
+    //     if (!playHuman && !playEasy && !gameOver) {
+    //       player2.turn = true;
+    //       const bestMove = cpuImpossibleAi()
+    //       board[bestMove] = player2.mark;
+    //       document.getElementById(`${bestMove}`).textContent = player2.mark;
+    //       inquireGameOver(player2, p2Score)
+    //     }
+    //     player2.turn = (player2.turn) ? false: true;
+    //   }
+      
+    // } else if (playHuman && !playEasy){
+    //   boxClicked.textContent = player2.mark;
+    //   board[boxClicked.id] = player2.mark;
+    //   inquireGameOver(player2, p2Score)
+    //   player2.turn = (player2.turn) ? false: true;
+    // } 
