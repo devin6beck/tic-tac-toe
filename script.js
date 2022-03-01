@@ -127,6 +127,10 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   newGame();
 
   function newGame() {
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      btnClearBoard.disabled = true;
+      btnClearBoard.style = 'cursor: not-allowed'
+    }
     if (!gameOver) {
       if (controller1 !== 'human') {
         if (controller1 === 'CPU(easy)' && !player2.turn) {
@@ -146,6 +150,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
         }
         
         if (controller2 !== 'human' && !gameOver && player2.turn) {
+          
           if (controller2 === 'CPU(easy)') {
             console.log(`player2.turn = ${player2.turn}`)
             setTimeout(dealyedEasyAi2, 1000) 
