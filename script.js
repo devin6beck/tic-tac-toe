@@ -4,16 +4,12 @@ class Player {
     this.mark =  mark;
     this.name = name;
     this.turn = false;
-    // this.wins = 0;
     this.winningMessage = `${name} Wins!`
-    this.score = 0;
   }
 }
 
 const screenWelcome = (() => {
   const btnStart = document.querySelector('.btn-start');
-  const btnEasyComp = document.getElementById('cpu-easy-player1');
-  const btnHardComp = document.querySelector('.hard');
   const screenStart = document.querySelector('.screen-start');
   const p1NameField = document.querySelector(".name-player-one");
   const p2NameField = document.querySelector(".name-player-two");
