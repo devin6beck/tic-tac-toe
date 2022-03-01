@@ -126,56 +126,107 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   newGame();
 
   function newGame() {
-    if (controller1 !== 'human') {
-      if (controller1 === 'CPU(easy)') {
-        cpuEasyAi(player1)
-        inquireGameOver(player1, p1Score)
-        player2.turn = true;
-      }
+    if (!gameOver) {
+      if (controller1 !== 'human') {
+        if (controller1 === 'CPU(easy)') {
+          cpuEasyAi(player1)
+          inquireGameOver(player1, p1Score)
+          player2.turn = true;
+        }
 
-      if (controller1 === 'CPU(medium)') {
-        cpuMediumAi(player1)
-        inquireGameOver(player1, p1Score)
-        player2.turn = true;
-      }
+        if (controller1 === 'CPU(medium)') {
+          cpuMediumAi(player1)
+          inquireGameOver(player1, p1Score)
+          player2.turn = true;
+        }
 
-      if (controller1 === 'CPU(hard)') {
-        cpuHardAi(player1)
-        inquireGameOver(player1, p1Score)
-        player2.turn = true;
-      }
+        if (controller1 === 'CPU(hard)') {
+          cpuHardAi(player1)
+          inquireGameOver(player1, p1Score)
+          player2.turn = true;
+        }
 
-      if (controller1 === 'CPU(impossible)') {
-        cpuImpossibleAi(player1)
-        inquireGameOver(player1, p1Score)
-        player2.turn = true;
+        if (controller1 === 'CPU(impossible)') {
+          cpuImpossibleAi(player1)
+          inquireGameOver(player1, p1Score)
+          player2.turn = true;
+        }
+        
+        if (controller2 !== 'human' && !gameOver) {
+          if (controller2 === 'CPU(easy)') {
+            setTimeout(dealyedEasyAi, 1000) 
+          }
+    
+          if (controller2 === 'CPU(medium)') {
+            setTimeout(dealyedMediumAi, 1000) 
+          }
+    
+          if (controller2 === 'CPU(hard)') {
+            setTimeout(dealyedHardAi, 1000) 
+          }
+    
+          if (controller2 === 'CPU(impossible)') {
+            setTimeout(dealyedImpossibleAi, 1000) 
+          }
+        }
       }
     }
+
   }
+
+  function dealyedEasyAi() {
+    cpuEasyAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    newGame()
+  }
+
+  function dealyedMediumAi() {
+    cpuMediumAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    newGame()
+  }
+
+  function dealyedHardAi() {
+    cpuHardAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    newGame()
+  }
+
+  function dealyedImpossibleAi() {
+    cpuImpossibleAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    newGame()
+  }
+
   btnNewGame.addEventListener('click', () => {
     clearBoard();
     screenGameOver.style.display = "none";
   })
 
-  box.forEach(box => {
-    box.addEventListener('mouseover', () => {
-      if (box.textContent.length === 0) {
-        if (!player2.turn) {
-          box.textContent = player1.mark
-        } else {
-          box.textContent = player2.mark
+  if (controller1 === 'human' || controller2 === 'human') {
+    box.forEach(box => {
+      box.addEventListener('mouseover', () => {
+        if (box.textContent.length === 0) {
+          if (!player2.turn) {
+            box.textContent = player1.mark
+          } else {
+            box.textContent = player2.mark
+          }
         }
-      }
-    });
+      });
 
-    box.addEventListener('mouseout', (e) => {
-      if (board[e.target.id] !== player1.mark && board[e.target.id] !== player2.mark) {
-        box.textContent = ""
-      }
-    });
-    box.addEventListener('click', drawMark, {once: true});
-  })
-
+      box.addEventListener('mouseout', (e) => {
+        if (board[e.target.id] !== player1.mark && board[e.target.id] !== player2.mark) {
+          box.textContent = ""
+        }
+      });
+      box.addEventListener('click', drawMark, {once: true});
+    })
+  }
   btnClearBoard.addEventListener('click', clearBoard);
 
   function clearBoard() {
