@@ -252,7 +252,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
           box.textContent = ""
         }
       });
-      box.addEventListener('click', drawMark, {once: true});
+      box.addEventListener('click', drawMark);
     })
   }
   btnClearBoard.addEventListener('click', clearBoard);
@@ -262,7 +262,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     gameOver = false;
     board = makeBoard();
     box.forEach(box => {
-      box.addEventListener('click', drawMark, {once: true});
+      box.addEventListener('click', drawMark);
       box.textContent = "";
     })
     newGame()
