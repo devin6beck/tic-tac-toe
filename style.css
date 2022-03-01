@@ -11,6 +11,10 @@ html{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+.btn-back {
+  align-self: baseline;
+  margin-left: 30vw;
+}
 .scores {
   display: flex;
   gap: 10rem;
@@ -88,6 +92,9 @@ html{
   background-color: rgba(3, 3, 3, 0.5);
   backdrop-filter: blur(4px);
   padding-top: 11%;
+
+
+  display: none;
   
 }
 .screen-gameover {
@@ -108,6 +115,8 @@ h2 {
   font-size: 2rem;
   background-color: transparent;
 }
+
+
 
 .player-options {
   display: flex;
