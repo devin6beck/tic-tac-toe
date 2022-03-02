@@ -20,31 +20,24 @@ const screenWelcome = (() => {
   let controller1 = 'human'
   let controller2 = 'human'
   
-
-
-  
   totalNumberOfRadioBtns = radioHumanOrCpu.length;
   while(totalNumberOfRadioBtns--) {
     console.log(totalNumberOfRadioBtns)
     radioHumanOrCpu[totalNumberOfRadioBtns].addEventListener("change",function(){
       if (this.name === 'player1') {
         if(this.value !== 'human') {
-          displayNameP1.textContent = this.value;
           inputNameP1.value = this.value;
           controller1 = this.value
         } else {
-          displayNameP1.textContent = "";
           inputNameP1.value = "";
           controller1 = 'human';
         }
       }
       if (this.name === 'player2') {
         if(this.value !== 'human') {
-          displayNameP2.textContent = this.value;
           inputNameP2.value = this.value;
           controller2 = this.value;  
         } else {
-          displayNameP2.textContent = "";
           inputNameP2.value = "";
           controller2 = 'human';
         }
