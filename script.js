@@ -230,7 +230,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
           inquireGameOver(player1, p1Score)
           player2.turn = true;
 
-          if (player2.turn && !gameOver) {
+          if (player2.turn && !gameOver && controller2 != 'human') {
             cpuPlay(controller2, player2, p2Score)
           }
 
