@@ -265,15 +265,12 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   }
 
-  function randomInteger() {
-    return Math.random() * (9) + 1;
-  }
-
   // Returns random integer from 0 up to not including 9
   function randomZeroThroughEight() { 
     return Math.floor(Math.random() * 9); 
   }
 
+  // Returns true if every box on the board is marked. 
   function tieCheck() {
     return (emptyIndexies(board).length === 0)
   } 
@@ -284,6 +281,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
             6, 7, 8];
   }
 
+  // Returns true if a players mark ('X' or 'O') is 3 in a row on the board.
   function winnerCheck(board, player) {
     if (
       (board[0] === player.mark && board[1] === player.mark && board[2] === player.mark) ||
@@ -318,6 +316,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   }
 
+  // Easy Ai plays a random move as long as the box is available to play on.
   function cpuEasyAi(player) {
     randomNum = randomZeroThroughEight();
     if (board[randomNum] instanceof String || typeof(board[randomNum]) === "string" && !gameOver) {
@@ -330,24 +329,29 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   }
 
+  // Medium Ai plays the best move 50% of the time
   function cpuMediumAi(player) {
-    const randomNum = randomInteger();
-    if (randomNum <= 5) {
+    const randomNum = randomZeroThroughEight();
+    console.log(`medium randomNum = ${randomNum}`)
+    if (randomNum <= 4) {
       cpuEasyAi(player);
     } else {
       cpuImpossibleAi(player)
     }
   }
 
+  // Hard Ai plays the best move 80% of the time
   function cpuHardAi(player) {
-    const randomNum = randomInteger();
-    if (randomNum <= 2) {
+    const randomNum = randomZeroThroughEight();
+    console.log(`hard randomNum = ${randomNum}`)
+    if (randomNum <= 1) {
       cpuEasyAi(player);
     } else {
       cpuImpossibleAi(player)
     }
   }
 
+  // Impossible Ai plays the best move 100% of the time. Unbeatable 
   function cpuImpossibleAi(player) {
     let bestMove = (minimax(board, player).index)
     document.getElementById(bestMove).textContent = player.mark;
