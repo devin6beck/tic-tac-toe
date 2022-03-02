@@ -355,18 +355,21 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   // Impossible Ai plays the best move 100% of the time. Unbeatable 
   function cpuImpossibleAi(player) {
     let bestMove = (minimax(board, player).index)
+    console.log(`bestMove = ${bestMove}`)
     document.getElementById(bestMove).textContent = player.mark;
     board[bestMove] = player.mark;
   }
 
+  // Returns the amount of empty boxes left on the board.
   function emptyIndexies(board){
     return  board.filter(s => s != player2.mark && s != player1.mark);
   } 
 
+  // Determins the best available move using recursion. 
   function minimax(newBoard, player){
   
     //available spots
-    var availSpots = emptyIndexies(newBoard);
+    const availSpots = emptyIndexies(newBoard);
   
     // checks for the terminal states such as win, lose, and tie and returning a value accordingly
     if (winnerCheck(newBoard, player1)){
@@ -383,9 +386,9 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     let moves = [];
   
     // loop through available spots
-    for (var i = 0; i < availSpots.length; i++){
+    for (let i = 0; i < availSpots.length; i++){
       //create an object for each and store the index of that spot that was stored as a number in the object's index key
-      var move = {};
+      const move = {};
       move.index = newBoard[availSpots[i]];
   
       // set the empty spot to the current player
@@ -393,11 +396,11 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   
       //if collect the score resulted from calling minimax on the opponent of the current player
       if (player == player2){
-        var result = minimax(newBoard, player1);
+        const result = minimax(newBoard, player1);
         move.score = result.score;
       }
       else{
-        var result = minimax(newBoard, player2);
+        const result = minimax(newBoard, player2);
         move.score = result.score;
       }
   
@@ -409,10 +412,10 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   
   // if it is the computer's turn loop over the moves and choose the move with the highest score
-    var bestMove;
+    let bestMove;
     if(player === player2){
-      var bestScore = -10000;
-      for(var i = 0; i < moves.length; i++){
+      let bestScore = -10000;
+      for(let i = 0; i < moves.length; i++){
         if(moves[i].score > bestScore){
           bestScore = moves[i].score;
           bestMove = i;
@@ -421,8 +424,8 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }else{
   
   // else loop over the moves and choose the move with the lowest score
-      var bestScore = 10000;
-      for(var i = 0; i < moves.length; i++){
+      let bestScore = 10000;
+      for(let i = 0; i < moves.length; i++){
         if(moves[i].score < bestScore){
           bestScore = moves[i].score;
           bestMove = i;
