@@ -171,9 +171,9 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     box.forEach(box => {
       box.addEventListener('mouseover', () => {
         if (box.textContent.length === 0) {
-          if (!player2.turn) {
+          if (!player2.turn && controller1 === 'human') {
             box.textContent = player1.mark
-          } else {
+          } else if (player2.turn && controller2 === 'human') {
             box.textContent = player2.mark
           }
         }
