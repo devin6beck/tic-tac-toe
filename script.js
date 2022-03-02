@@ -365,24 +365,19 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
      
   }
 
-
-
   function dealyedEasyAi() {
-    if (!gameOver) {
-      cpuEasyAi(player1)
-      inquireGameOver(player1, p1Score)
-      player2.turn = true;
-      if (controller1 !== 'human' && controller2 !== 'human') {
-        playTurn()
-      }
-    }
+    delayedEasyAiHandler(player1, p1Score)
   }
 
   function dealyedEasyAi2() {
+    delayedEasyAiHandler(player2, p2Score)
+  }
+
+  function delayedEasyAiHandler(player, score) {
     if (!gameOver) {
-      cpuEasyAi(player2)
-      inquireGameOver(player2, p2Score)
-      player2.turn = false;
+      cpuEasyAi(player)
+      inquireGameOver(player, score)
+      player2.turn = (player2.turn === true) ? false : true;
       if (controller1 !== 'human' && controller2 !== 'human') {
         playTurn()
       }
