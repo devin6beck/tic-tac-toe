@@ -332,7 +332,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   // Medium Ai plays the best move 50% of the time
   function cpuMediumAi(player) {
     const randomNum = randomZeroThroughEight();
-    console.log(`medium randomNum = ${randomNum}`)
     if (randomNum <= 4) {
       cpuEasyAi(player);
     } else {
@@ -343,7 +342,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   // Hard Ai plays the best move 80% of the time
   function cpuHardAi(player) {
     const randomNum = randomZeroThroughEight();
-    console.log(`hard randomNum = ${randomNum}`)
     if (randomNum <= 1) {
       cpuEasyAi(player);
     } else {
