@@ -170,9 +170,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   }
 
-
-  
-
   btnNewGame.addEventListener('click', () => {
     clearBoard();
     screenGameOver.style.display = "none";
@@ -296,12 +293,18 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
      
   }
 
+  // Delays for 1 second and then plays for the cpu.
   function cpuPlay(controller, player, score) {
     setTimeout( () => {
       delayedAiHandler(controller, player, score)
     }, 1000)
   }
 
+  /*
+  Plays for the cpu according to the cpu's difficulty, then checks for
+  game over, and changes player2's turn. If it is a cpu vs cpu game it lastly
+  plays the next turn by calling playTurn().
+  */
   function delayedAiHandler(controller, player, score) {
     switch (controller) {
       case 'CPU(easy)': cpuEasyAi(player); break;
