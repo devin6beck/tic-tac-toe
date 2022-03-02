@@ -365,23 +365,17 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
      
   }
 
-  function dealyedAi(player, score) {
-    delayedAiHandler(player, score)
-    cpuEasyAi(player)
-  }
-
   function dealyedEasyAi() {
-    delayedAiHandler(player1, p1Score)
-    cpuEasyAi(player1)
+    delayedEasyAiHandler(player1, p1Score)
   }
 
   function dealyedEasyAi2() {
-    delayedAiHandler(player2, p2Score)
-    cpuEasyAi(player2)
+    delayedEasyAiHandler(player2, p2Score)
   }
 
-  function delayedAiHandler(player, score) {
+  function delayedEasyAiHandler(player, score) {
     if (!gameOver) {
+      cpuEasyAi(player)
       inquireGameOver(player, score)
       player2.turn = (player2.turn === true) ? false : true;
       if (controller1 !== 'human' && controller2 !== 'human') {
@@ -391,13 +385,21 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   }
 
   function dealyedMediumAi() {
-    delayedAiHandler(player1, p1Score)
     cpuMediumAi(player1)
+    inquireGameOver(player1, p1Score)
+    player2.turn = true;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
   }
 
   function dealyedMediumAi2() {
-    delayedAiHandler(player2, p2Score)
     cpuMediumAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
   }
 
   function dealyedHardAi() {
