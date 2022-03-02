@@ -150,12 +150,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   playTurn();
 
   function playTurn() {
-
-    /* 
-    This block of code is for when it is CPU vs CPU. The CPUs take turns
-    and take 1 second to think each.
-
-    */
     if (!gameOver) {
       if (controller1 !== 'human') {
         if (!player2.turn) {
