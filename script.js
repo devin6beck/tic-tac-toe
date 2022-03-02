@@ -225,6 +225,10 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   }
 
+  /*
+  Plays the players's mark on the box the user clicks on. 
+  Lastly if it is human vs cpu and not game over then cpuPlay() is called 
+  */
   function humanPlay(player, opponent, score, boxClicked, controller) {
     if (controller !== 'human') {
       return;
@@ -247,6 +251,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   }
 
+  // Returns true if there is a winner or the game is a tie.
   function inquireGameOver(player, score) {
     if (winnerCheck(board, player)) {
       msgContainer.textContent = player.winningMessage;
