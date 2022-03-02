@@ -11,68 +11,59 @@ class Player {
 const screenWelcome = (() => {
   const btnStart = document.querySelector('.btn-start');
   const screenStart = document.querySelector('.screen-start');
-  const p1NameField = document.querySelector(".name-player-one");
-  const p2NameField = document.querySelector(".name-player-two");
-  const p1NameInput = document.querySelector('.input-player1')
-  const p2NameInput = document.querySelector('.input-player2')
+  const displayNameP1 = document.querySelector(".name-player-one");
+  const displayNameP2 = document.querySelector(".name-player-two");
+  const inputNameP1 = document.querySelector('.input-player1')
+  const inputNameP2 = document.querySelector('.input-player2')
 
   let controller1 = 'human'
   let controller2 = 'human'
-
-  let inputs=document.querySelectorAll("input[type=radio]");
-    x=inputs.length;
-    while(x--)
-    inputs[x].addEventListener("change",function(){
-      if (this.name === 'player1') {
-        if(this.value !== 'human') {
-          p1NameField.textContent = this.value;
-          p1NameInput.value = this.value;
-          controller1 = this.value
-        } else {
-          p1NameField.textContent = "";
-          p1NameInput.value = "";
-          controller1 = 'human';
-        }
-      }
-      if (this.name === 'player2') {
-        if(this.value !== 'human') {
-          p2NameField.textContent = this.value;
-          p2NameInput.value = this.value;
-          controller2 = this.value;  
-        } else {
-          p2NameField.textContent = "";
-          p2NameInput.value = "";
-          controller2 = 'human';
-        }
-      }
-    },0);
 
   btnStart.addEventListener('click', () =>{
     start(controller1, controller2)
   });
 
-
+  let radioHumanOrCpu = document.querySelectorAll("input[type=radio]");
+    totalNumberOfRadioBtns = radioHumanOrCpu.length;
+    while(totalNumberOfRadioBtns--) {
+      console.log(totalNumberOfRadioBtns)
+      radioHumanOrCpu[totalNumberOfRadioBtns].addEventListener("change",function(){
+        if (this.name === 'player1') {
+          if(this.value !== 'human') {
+            displayNameP1.textContent = this.value;
+            inputNameP1.value = this.value;
+            controller1 = this.value
+          } else {
+            displayNameP1.textContent = "";
+            inputNameP1.value = "";
+            controller1 = 'human';
+          }
+        }
+        if (this.name === 'player2') {
+          if(this.value !== 'human') {
+            displayNameP2.textContent = this.value;
+            inputNameP2.value = this.value;
+            controller2 = this.value;  
+          } else {
+            displayNameP2.textContent = "";
+            inputNameP2.value = "";
+            controller2 = 'human';
+          }
+        }
+      });
+    }
 
   function start(controller1, controller2) {
     const p1Name = setP1Name();
     const p2Name = setP2Name();
     
-    p1NameField.textContent = p1Name;
-    p2NameField.textContent = p2Name;
+    displayNameP1.textContent = p1Name;
+    displayNameP2.textContent = p2Name;
     const player1 = new Player('X', p1Name);
     const player2 = new Player('O', p2Name);
     screenStart.style.display = "none";
     gameBoard(player1, player2, controller1, controller2);
   }
-
-  document.addEventListener("keyup", function(e) {
-    if (e.key === "Enter") {
-      if (screenStart.style.display !== "flex") {
-        e.preventDefault();
-        btnStart.click();
-      }
-    }
-  })
 
   function setP1Name() {
     radioChecked = document.querySelector(`input[name="player1"]:checked`).value;
@@ -100,6 +91,14 @@ const screenWelcome = (() => {
     }
   }
 
+  document.addEventListener("keyup", function(e) {
+    if (e.key === "Enter") {
+      if (screenStart.style.display !== "flex") {
+        e.preventDefault();
+        btnStart.click();
+      }
+    }
+  })
   
 })()
 
