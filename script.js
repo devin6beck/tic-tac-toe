@@ -8,6 +8,11 @@ class Player {
   }
 }
 
+/*
+When the page loads the const screenWelcome is called. A welcome/start screen
+shows the user an input for player names, radio buttons for player options,
+and a start button.
+*/
 const screenWelcome = (() => {
   const btnStart = document.querySelector('.btn-start');
   const radioHumanOrCpu = document.querySelectorAll("input[type=radio]");
@@ -17,39 +22,20 @@ const screenWelcome = (() => {
   const inputNameP1 = document.querySelector('.input-player1')
   const inputNameP2 = document.querySelector('.input-player2')
 
+  /*
+  Controller1 = 'X' = player1. Controller2 = 'O' = player2
+  Controllers let the const gameBoard know if players are human or cpu.
+  They are initiated as human but the radio buttons can change them.
+  Options: 'human', 'cpu(easy)', 'cpu(medium)', 'cpu(hard)', & 'cpu(impossible)', 
+  */
   let controller1 = 'human'
   let controller2 = 'human'
-  
-  totalNumberOfRadioBtns = radioHumanOrCpu.length;
-  while(totalNumberOfRadioBtns--) {
-    console.log(totalNumberOfRadioBtns)
-    radioHumanOrCpu[totalNumberOfRadioBtns].addEventListener("change",function(){
-      if (this.name === 'player1') {
-        if(this.value !== 'human') {
-          inputNameP1.value = this.value;
-          controller1 = this.value
-        } else {
-          inputNameP1.value = "";
-          controller1 = 'human';
-        }
-      }
-      if (this.name === 'player2') {
-        if(this.value !== 'human') {
-          inputNameP2.value = this.value;
-          controller2 = this.value;  
-        } else {
-          inputNameP2.value = "";
-          controller2 = 'human';
-        }
-      }
-    });
-  }
 
   /*
-    When the start button is clicked the name displays are applied,
-    the player1 & player2 are created from Class Player,
-    the start screen is set to display none,
-    and the const gameBoard is called.
+  When the start button is clicked the name displays are applied,
+  the player1 & player2 are created from Class Player,
+  the start screen is set to display none,
+  and the const gameBoard is called.
   */
   btnStart.addEventListener('click', () =>{
     start(controller1, controller2)
@@ -58,13 +44,47 @@ const screenWelcome = (() => {
   function start(controller1, controller2) {
     const p1Name = setP1Name();
     const p2Name = setP2Name();
-    
-    displayNameP1.textContent = p1Name;
-    displayNameP2.textContent = p2Name;
     const player1 = new Player('X', p1Name);
     const player2 = new Player('O', p2Name);
+    displayNameP1.textContent = p1Name;
+    displayNameP2.textContent = p2Name;
     screenStart.style.display = "none";
     gameBoard(player1, player2, controller1, controller2);
+  }
+
+  /*
+  The radio button on the welcome/start screen are listening for change.
+  If changed to a cpu option then the input field for the player name changes
+  to 'CPU(#difficulty)' and the controller is set accordingly. .
+  If changed to the human option then the imput field is cleared and the
+  controller is set to 'human'
+  */
+  totalNumberOfRadioBtns = radioHumanOrCpu.length;
+  while(totalNumberOfRadioBtns--) {
+
+    radioHumanOrCpu[totalNumberOfRadioBtns].addEventListener("change",function() {
+
+      if (this.name === 'player1') {
+        if (this.value !== 'human') {
+          inputNameP1.value = this.value;
+          controller1 = this.value
+        } else {   
+          inputNameP1.value = "";
+          controller1 = 'human';
+        }
+      }
+
+      if (this.name === 'player2') {
+        if (this.value !== 'human') {
+          inputNameP2.value = this.value;
+          controller2 = this.value;  
+        } else {
+          inputNameP2.value = "";
+          controller2 = 'human';
+        }
+      }
+
+    });
   }
 
   function setP1Name() {
@@ -93,6 +113,9 @@ const screenWelcome = (() => {
     }
   }
 
+  /*
+
+  */
   document.addEventListener("keyup", function(e) {
     if (e.key === "Enter") {
       if (screenStart.style.display !== "flex") {
@@ -101,8 +124,10 @@ const screenWelcome = (() => {
       }
     }
   })
-  
+
 })()
+
+
 
 const gameBoard = ((player1, player2, controller1, controller2) => {
   const box = document.querySelectorAll('.box');
@@ -117,33 +142,41 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   let board = makeBoard();
   let gameOver = false;
 
-  newGame();
+  if (controller1 !== 'human' && controller2 !== 'human') {
+    btnClearBoard.disabled = true;
+    btnClearBoard.style = 'cursor: not-allowed'
+  }
 
-  function newGame() {
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      btnClearBoard.disabled = true;
-      btnClearBoard.style = 'cursor: not-allowed'
-    }
+  playTurn();
+
+  function playTurn() {
+
+    /* 
+    This block of code is for when it is CPU vs CPU. The CPUs take turns
+    and take 1 second to think each.
+
+    */
     if (!gameOver) {
       if (controller1 !== 'human') {
-        if (controller1 === 'CPU(easy)' && !player2.turn) {
-          setTimeout(dealyedEasyAi, 1000) 
-        }
+        if (!player2.turn) {
+          if (controller1 === 'CPU(easy)') {
+            setTimeout(dealyedEasyAi, 1000) 
+          }
 
-        if (controller1 === 'CPU(medium)' && !player2.turn) {
-          setTimeout(dealyedMediumAi, 1000) 
-        }
+          if (controller1 === 'CPU(medium)' && !player2.turn) {
+            setTimeout(dealyedMediumAi, 1000) 
+          }
 
-        if (controller1 === 'CPU(hard)' && !player2.turn) {
-          setTimeout(dealyedHardAi, 1000) 
-        }
+          if (controller1 === 'CPU(hard)' && !player2.turn) {
+            setTimeout(dealyedHardAi, 1000) 
+          }
 
-        if (controller1 === 'CPU(impossible)' && !player2.turn) {
-          setTimeout(dealyedImpossibleAi, 1000)
+          if (controller1 === 'CPU(impossible)' && !player2.turn) {
+            setTimeout(dealyedImpossibleAi, 1000)
+          }
         }
         
-        if (controller2 !== 'human' && !gameOver && player2.turn) {
-          
+        if (player2.turn) {
           if (controller2 === 'CPU(easy)') {
             setTimeout(dealyedEasyAi2, 1000) 
           }
@@ -165,81 +198,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   }
 
-  function dealyedEasyAi2() {
-    if (!gameOver) {
-      cpuEasyAi(player2)
-      inquireGameOver(player2, p2Score)
-      player2.turn = false;
-      if (controller1 !== 'human' && controller2 !== 'human') {
-        newGame()
-      }
-    }
-  }
-
-  function dealyedMediumAi2() {
-    cpuMediumAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      newGame()
-    }
-  }
-
-  function dealyedHardAi2() {
-    cpuHardAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      newGame()
-    }
-  }
-
-  function dealyedImpossibleAi2() {
-    cpuImpossibleAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      newGame()
-    }
-  }
-
-  function dealyedEasyAi() {
-    if (!gameOver) {
-      cpuEasyAi(player1)
-      inquireGameOver(player1, p1Score)
-      player2.turn = true;
-      if (controller1 !== 'human' && controller2 !== 'human') {
-        newGame()
-      }
-    }
-  }
-
-  function dealyedMediumAi() {
-    cpuMediumAi(player1)
-    inquireGameOver(player1, p1Score)
-    player2.turn = true;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      newGame()
-    }
-  }
-
-  function dealyedHardAi() {
-    cpuHardAi(player1)
-    inquireGameOver(player1, p1Score)
-    player2.turn = true;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      newGame()
-    }
-  }
-
-  function dealyedImpossibleAi() {
-    cpuImpossibleAi(player1)
-    inquireGameOver(player1, p1Score)
-    player2.turn = true;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      newGame()
-    }
-  }
+  
 
   btnNewGame.addEventListener('click', () => {
     clearBoard();
@@ -281,7 +240,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       box.addEventListener('click', drawMark);
       box.textContent = "";
     })
-    newGame()
+    playTurn()
   }
 
   function drawMark(e) {
@@ -405,8 +364,19 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     ) return true;
      
   }
+
+  function dealyedEasyAi2() {
+    if (!gameOver) {
+      cpuEasyAi(player2)
+      inquireGameOver(player2, p2Score)
+      player2.turn = false;
+      if (controller1 !== 'human' && controller2 !== 'human') {
+        playTurn()
+      }
+    }
+  }
+
   function cpuEasyAi(player) {
-    
     randomNum = randomZeroThroughEight();
     if (board[randomNum] instanceof String || typeof(board[randomNum]) === "string" && !gameOver) {
       cpuEasyAi(player);
@@ -417,6 +387,73 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       }
     }
   }
+
+  function dealyedMediumAi2() {
+    cpuMediumAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
+
+  function dealyedHardAi2() {
+    cpuHardAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
+
+  function dealyedImpossibleAi2() {
+    cpuImpossibleAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
+
+  function dealyedEasyAi() {
+    if (!gameOver) {
+      cpuEasyAi(player1)
+      inquireGameOver(player1, p1Score)
+      player2.turn = true;
+      if (controller1 !== 'human' && controller2 !== 'human') {
+        playTurn()
+      }
+    }
+  }
+
+  function dealyedMediumAi() {
+    cpuMediumAi(player1)
+    inquireGameOver(player1, p1Score)
+    player2.turn = true;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
+
+  function dealyedHardAi() {
+    cpuHardAi(player1)
+    inquireGameOver(player1, p1Score)
+    player2.turn = true;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
+
+  function dealyedImpossibleAi() {
+    cpuImpossibleAi(player1)
+    inquireGameOver(player1, p1Score)
+    player2.turn = true;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
+
+
 
   function cpuMediumAi(player) {
     const randomNum = randomInteger();
