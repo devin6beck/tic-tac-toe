@@ -160,37 +160,53 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       if (controller1 !== 'human') {
         if (!player2.turn) {
           if (controller1 === 'CPU(easy)') {
-            setTimeout(dealyedEasyAi, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller1, player1, p1Score)
+            }, 1000) 
           }
 
           if (controller1 === 'CPU(medium)' && !player2.turn) {
-            setTimeout(dealyedMediumAi, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller1, player1, p1Score)
+            }, 1000)
           }
 
           if (controller1 === 'CPU(hard)' && !player2.turn) {
-            setTimeout(dealyedHardAi, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller1, player1, p1Score)
+            }, 1000) 
           }
 
           if (controller1 === 'CPU(impossible)' && !player2.turn) {
-            setTimeout(dealyedImpossibleAi, 1000)
+            setTimeout( () => {
+              delayedAiHandler(controller1, player1, p1Score)
+            }, 1000)
           }
         }
         
         if (player2.turn) {
           if (controller2 === 'CPU(easy)') {
-            setTimeout(dealyedEasyAi2, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller2, player2, p2Score)
+            }, 1000) 
           }
     
           if (controller2 === 'CPU(medium)') {
-            setTimeout(dealyedMediumAi2, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller2, player2, p2Score)
+            }, 1000)
           }
     
           if (controller2 === 'CPU(hard)') {
-            setTimeout(dealyedHardAi2, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller2, player2, p2Score)
+            }, 1000) 
           }
     
           if (controller2 === 'CPU(impossible)') {
-            setTimeout(dealyedImpossibleAi2, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller2, player2, p2Score)
+            }, 1000) 
           }
         }
       }
@@ -258,18 +274,26 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
         player2.turn = true;
 
         if (controller2 === 'CPU(easy)' && !gameOver && player2.turn) {
-          setTimeout(dealyedEasyAi2, 1000)
+          setTimeout( () => {
+            delayedAiHandler(controller2, player2, p2Score)
+          }, 1000)
         }
         if (controller2 === 'CPU(medium)' && !gameOver && player2.turn) {
-          setTimeout(dealyedMediumAi2, 1000)
+          setTimeout( () => {
+            delayedAiHandler(controller2, player2, p2Score)
+          }, 1000)
         }
 
         if (controller2 === 'CPU(hard)' && !gameOver && player2.turn) {
-          setTimeout(dealyedHardAi2, 1000)
+          setTimeout( () => {
+            delayedAiHandler(controller2, player2, p2Score)
+          }, 1000)
         }
 
         if (controller2 === 'CPU(impossible)' && !gameOver && player2.turn) {
-          setTimeout(dealyedImpossibleAi2, 1000)
+          setTimeout( () => {
+            delayedAiHandler(controller2, player2, p2Score)
+          }, 1000)
         }
 
         } 
@@ -295,19 +319,27 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
           player2.turn = false;
 
           if (controller1 === 'CPU(easy)' && !player2.turn && !gameOver) {
-            setTimeout(dealyedEasyAi, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller1, player1, p1Score)
+            }, 1000) 
           }
 
           if (controller1 === 'CPU(medium)' && !player2.turn && !gameOver) {
-            setTimeout(dealyedMediumAi, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller1, player1, p1Score)
+            }, 1000) 
           }
 
           if (controller1 === 'CPU(hard)' && !player2.turn && !gameOver) {
-            setTimeout(dealyedHardAi, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller1, player1, p1Score)
+            }, 1000) 
           }
 
           if (controller1 === 'CPU(impossible)' && !player2.turn && !gameOver) {
-            setTimeout(dealyedImpossibleAi, 1000) 
+            setTimeout( () => {
+              delayedAiHandler(controller1, player1, p1Score)
+            }, 1000) 
           }
 
         }
@@ -365,74 +397,16 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
      
   }
 
-  function dealyedEasyAi() {
-    delayedEasyAiHandler(player1, p1Score)
-  }
 
-  function dealyedEasyAi2() {
-    delayedEasyAiHandler(player2, p2Score)
-  }
-
-  function delayedEasyAiHandler(player, score) {
-    if (!gameOver) {
-      cpuEasyAi(player)
-      inquireGameOver(player, score)
-      player2.turn = (player2.turn === true) ? false : true;
-      if (controller1 !== 'human' && controller2 !== 'human') {
-        playTurn()
-      }
+  function delayedAiHandler(controller, player, score) {
+    switch (controller) {
+      case 'CPU(easy)': cpuEasyAi(player); break;
+      case 'CPU(medium)': cpuMediumAi(player); break;
+      case 'CPU(hard)': cpuHardAi(player); break;
+      case 'CPU(impossible)': cpuImpossibleAi(player);
     }
-  }
-
-  function dealyedMediumAi() {
-    cpuMediumAi(player1)
-    inquireGameOver(player1, p1Score)
-    player2.turn = true;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
-    }
-  }
-
-  function dealyedMediumAi2() {
-    cpuMediumAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
-    }
-  }
-
-  function dealyedHardAi() {
-    cpuHardAi(player1)
-    inquireGameOver(player1, p1Score)
-    player2.turn = true;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
-    }
-  }
-
-  function dealyedHardAi2() {
-    cpuHardAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
-    }
-  }
-
-  function dealyedImpossibleAi() {
-    cpuImpossibleAi(player1)
-    inquireGameOver(player1, p1Score)
-    player2.turn = true;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
-    }
-  }
-
-  function dealyedImpossibleAi2() {
-    cpuImpossibleAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
+    inquireGameOver(player, score)
+    player2.turn = (player2.turn === true) ? false : true;
     if (controller1 !== 'human' && controller2 !== 'human') {
       playTurn()
     }
