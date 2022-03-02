@@ -220,15 +220,18 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     let boxClicked = e.target;
   
     if (!player2.turn) {
-      humanPlay(player1, player2, p1Score, boxClicked)
+      humanPlay(player1, player2, p1Score, boxClicked, controller1)
     } 
 
     if (player2.turn) {
-      humanPlay(player2, player1, p2Score, boxClicked)
+      humanPlay(player2, player1, p2Score, boxClicked, controller2)
     }
   }
 
-  function humanPlay(player, opponent, score, boxClicked) {
+  function humanPlay(player, opponent, score, boxClicked, controller) {
+    if (controller !== 'human') {
+      return;
+    }
     if (boxClicked.textContent === player.mark && boxClicked.textContent !== opponent.mark) {
       boxClicked.textContent = player.mark;
       board[boxClicked.id] = player.mark;
