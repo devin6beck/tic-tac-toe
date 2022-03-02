@@ -218,52 +218,34 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   function drawMark(e) {
     let boxClicked = e.target;
-    if (gameOver) {
-      return;
-    }
   
     if (!player2.turn) {
-      if(controller1 === 'human') {
-        if (boxClicked.textContent === player1.mark && boxClicked.textContent !== player2.mark) {
-          boxClicked.textContent = player1.mark;
-          board[boxClicked.id] = player1.mark;
-          inquireGameOver(player1, p1Score)
-          player2.turn = true;
-
-          if (player2.turn && !gameOver && controller2 != 'human') {
-            cpuPlay(controller2, player2, p2Score)
-          }
-
-        } 
-      }
-
+      humanPlay(player1, player2, p1Score, boxClicked)
     } 
 
     if (player2.turn) {
-      if(controller2 === 'human' && controller1 === 'human') {
-        if (boxClicked.textContent === player2.mark && boxClicked.textContent !== player1.mark) {
-        boxClicked.textContent = player2.mark;
-        board[boxClicked.id] = player2.mark;
-        inquireGameOver(player2, p2Score)
-        player2.turn = false;
-        } 
-      }
-      
-      if (controller2 === 'human' && controller1 !=='human') {
-        if (boxClicked.textContent === player2.mark && boxClicked.textContent !== player1.mark) {
-          boxClicked.textContent = player2.mark;
-          board[boxClicked.id] = player2.mark;
-          inquireGameOver(player2, p2Score)
-          player2.turn = false;
+      humanPlay(player2, player1, p2Score, boxClicked)
+    }
+  }
 
-          if (!player2.turn && !gameOver) {
-            cpuPlay(controller1, player1, p1Score)
-          }
+  function humanPlay(player, opponent, score, boxClicked) {
+    if (boxClicked.textContent === player.mark && boxClicked.textContent !== opponent.mark) {
+      boxClicked.textContent = player.mark;
+      board[boxClicked.id] = player.mark;
+      inquireGameOver(player, score);
+      player2.turn = (player2.turn === true) ? false : true;
+
+      if (!gameOver) {
+        if (controller2 !== 'human') {
+          cpuPlay(controller2, player2, p2Score);
+          return;
+        }
+        if (controller1 !== 'human') {
+          cpuPlay(controller1, player1, p1Score)
         }
       }
     }
   }
-
 
   function inquireGameOver(player, score) {
     if (winnerCheck(board, player)) {
