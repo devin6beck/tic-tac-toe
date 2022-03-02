@@ -127,8 +127,6 @@ const screenWelcome = (() => {
 
 })()
 
-
-
 const gameBoard = ((player1, player2, controller1, controller2) => {
   const box = document.querySelectorAll('.box');
   const btnClearBoard = document.querySelector('.btn-clear-board');
@@ -354,7 +352,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   // Impossible Ai plays the best move 100% of the time. Unbeatable 
   function cpuImpossibleAi(player) {
     let bestMove = (minimax(board, player).index)
-    console.log(`bestMove = ${bestMove}`)
     document.getElementById(bestMove).textContent = player.mark;
     board[bestMove] = player.mark;
   }
