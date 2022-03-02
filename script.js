@@ -365,61 +365,24 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
      
   }
 
-  function dealyedEasyAi2() {
-    if (!gameOver) {
-      cpuEasyAi(player2)
-      inquireGameOver(player2, p2Score)
-      player2.turn = false;
-      if (controller1 !== 'human' && controller2 !== 'human') {
-        playTurn()
-      }
-    }
-  }
 
-  function cpuEasyAi(player) {
-    randomNum = randomZeroThroughEight();
-    if (board[randomNum] instanceof String || typeof(board[randomNum]) === "string" && !gameOver) {
-      cpuEasyAi(player);
-    } else {
-      if (!gameOver) {
-        document.getElementById(`${randomNum}`).textContent = player.mark;
-        board[randomNum] = player.mark;
-      }
-    }
-  }
-
-  function dealyedMediumAi2() {
-    cpuMediumAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
-    }
-  }
-
-  function dealyedHardAi2() {
-    cpuHardAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
-    }
-  }
-
-  function dealyedImpossibleAi2() {
-    cpuImpossibleAi(player2)
-    inquireGameOver(player2, p2Score)
-    player2.turn = false;
-    if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
-    }
-  }
 
   function dealyedEasyAi() {
     if (!gameOver) {
       cpuEasyAi(player1)
       inquireGameOver(player1, p1Score)
       player2.turn = true;
+      if (controller1 !== 'human' && controller2 !== 'human') {
+        playTurn()
+      }
+    }
+  }
+
+  function dealyedEasyAi2() {
+    if (!gameOver) {
+      cpuEasyAi(player2)
+      inquireGameOver(player2, p2Score)
+      player2.turn = false;
       if (controller1 !== 'human' && controller2 !== 'human') {
         playTurn()
       }
@@ -435,10 +398,28 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   }
 
+  function dealyedMediumAi2() {
+    cpuMediumAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
+
   function dealyedHardAi() {
     cpuHardAi(player1)
     inquireGameOver(player1, p1Score)
     player2.turn = true;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
+
+  function dealyedHardAi2() {
+    cpuHardAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
     if (controller1 !== 'human' && controller2 !== 'human') {
       playTurn()
     }
@@ -453,7 +434,26 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   }
 
+  function dealyedImpossibleAi2() {
+    cpuImpossibleAi(player2)
+    inquireGameOver(player2, p2Score)
+    player2.turn = false;
+    if (controller1 !== 'human' && controller2 !== 'human') {
+      playTurn()
+    }
+  }
 
+  function cpuEasyAi(player) {
+    randomNum = randomZeroThroughEight();
+    if (board[randomNum] instanceof String || typeof(board[randomNum]) === "string" && !gameOver) {
+      cpuEasyAi(player);
+    } else {
+      if (!gameOver) {
+        document.getElementById(`${randomNum}`).textContent = player.mark;
+        board[randomNum] = player.mark;
+      }
+    }
+  }
 
   function cpuMediumAi(player) {
     const randomNum = randomInteger();
