@@ -10,6 +10,7 @@ class Player {
 
 const screenWelcome = (() => {
   const btnStart = document.querySelector('.btn-start');
+  const radioHumanOrCpu = document.querySelectorAll("input[type=radio]");
   const screenStart = document.querySelector('.screen-start');
   const displayNameP1 = document.querySelector(".name-player-one");
   const displayNameP2 = document.querySelector(".name-player-two");
@@ -18,40 +19,48 @@ const screenWelcome = (() => {
 
   let controller1 = 'human'
   let controller2 = 'human'
+  
 
+
+  
+  totalNumberOfRadioBtns = radioHumanOrCpu.length;
+  while(totalNumberOfRadioBtns--) {
+    console.log(totalNumberOfRadioBtns)
+    radioHumanOrCpu[totalNumberOfRadioBtns].addEventListener("change",function(){
+      if (this.name === 'player1') {
+        if(this.value !== 'human') {
+          displayNameP1.textContent = this.value;
+          inputNameP1.value = this.value;
+          controller1 = this.value
+        } else {
+          displayNameP1.textContent = "";
+          inputNameP1.value = "";
+          controller1 = 'human';
+        }
+      }
+      if (this.name === 'player2') {
+        if(this.value !== 'human') {
+          displayNameP2.textContent = this.value;
+          inputNameP2.value = this.value;
+          controller2 = this.value;  
+        } else {
+          displayNameP2.textContent = "";
+          inputNameP2.value = "";
+          controller2 = 'human';
+        }
+      }
+    });
+  }
+
+  /*
+    When the start button is clicked the name displays are applied,
+    the player1 & player2 are created from Class Player,
+    the start screen is set to display none,
+    and the const gameBoard is called.
+  */
   btnStart.addEventListener('click', () =>{
     start(controller1, controller2)
   });
-
-  let radioHumanOrCpu = document.querySelectorAll("input[type=radio]");
-    totalNumberOfRadioBtns = radioHumanOrCpu.length;
-    while(totalNumberOfRadioBtns--) {
-      console.log(totalNumberOfRadioBtns)
-      radioHumanOrCpu[totalNumberOfRadioBtns].addEventListener("change",function(){
-        if (this.name === 'player1') {
-          if(this.value !== 'human') {
-            displayNameP1.textContent = this.value;
-            inputNameP1.value = this.value;
-            controller1 = this.value
-          } else {
-            displayNameP1.textContent = "";
-            inputNameP1.value = "";
-            controller1 = 'human';
-          }
-        }
-        if (this.name === 'player2') {
-          if(this.value !== 'human') {
-            displayNameP2.textContent = this.value;
-            inputNameP2.value = this.value;
-            controller2 = this.value;  
-          } else {
-            displayNameP2.textContent = "";
-            inputNameP2.value = "";
-            controller2 = 'human';
-          }
-        }
-      });
-    }
 
   function start(controller1, controller2) {
     const p1Name = setP1Name();
