@@ -167,6 +167,10 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     screenGameOver.style.display = "none";
   })
 
+  /*
+  If at least one of the players is human as they mouseover an empty box 
+  it will display their mark if it is their turn. 
+  */
   if (controller1 === 'human' || controller2 === 'human') {
     box.forEach(box => {
       box.addEventListener('mouseover', () => {
@@ -184,6 +188,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
           box.textContent = ""
         }
       });
+      // When a player clicks a box the drawMark function is called.
       box.addEventListener('click', drawMark);
     })
   }
@@ -194,6 +199,10 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     window.location.reload()
   })
 
+  /*
+  Sets the const gameBoard back to initial state, removes marks from board,
+  and calls playTurn().
+  */
   function clearBoard() {
     player2.turn = false;
     gameOver = false;
@@ -218,13 +227,16 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   }
 
   /*
-  Plays the players's mark on the box the user clicks on. 
+  Plays the players's mark on the box the user clicks on if it is not empty.
+  It also checks if the game is over and changes turn.
   Lastly if it is human vs cpu and not game over then cpuPlay() is called 
   */
   function humanPlay(player, opponent, score, boxClicked, controller) {
+
     if (controller !== 'human') {
       return;
     }
+
     if (boxClicked.textContent === player.mark && boxClicked.textContent !== opponent.mark) {
       boxClicked.textContent = player.mark;
       board[boxClicked.id] = player.mark;
@@ -287,7 +299,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       (board[0] === player.mark && board[4] === player.mark && board[8] === player.mark) ||   
       (board[2] === player.mark && board[4] === player.mark && board[6] === player.mark)
     ) return true;
-     
   }
 
   // Delays for 1 second and then plays for the cpu.
@@ -407,7 +418,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       moves.push(move);
     }
   
-  // if it is the computer's turn loop over the moves and choose the move with the highest score
+  // if cpu's turn loop over the moves and choose the move with the highest score
     let bestMove;
     if(player === player2){
       let bestScore = -10000;
@@ -417,8 +428,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
           bestMove = i;
         }
       }
-    }else{
-  
+    } else { 
   // else loop over the moves and choose the move with the lowest score
       let bestScore = 10000;
       for(let i = 0; i < moves.length; i++){
