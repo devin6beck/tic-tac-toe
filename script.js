@@ -237,7 +237,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   Lastly if it is human vs cpu and not game over then cpuPlay() is called 
   */
   function humanPlay(player, opponent, score, boxClicked, controller) {
-    if (controller !== 'human') return; 
     if (boxClicked.textContent === player.mark && boxClicked.textContent !== opponent.mark) {
       boxClicked.textContent = player.mark;
       board[boxClicked.id] = player.mark;
