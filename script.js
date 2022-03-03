@@ -1,10 +1,19 @@
+/*
+Script for a game of tic-tac-toe. Can play human vs human or human vs cpu.
+The user may be X's or O's vs the computer.
+The cpu has difficulty choices of easy, medium, hard, and impossible.
+The easy cpu picks a random open box on the board to play it's mark.
+The medium cpu plays the best move 50% of the time.
+The hard cpu plays the best move 80% of the time.
+The impossible cpu plays the best move 100% of the time. User can not win.
+*/
 
 class Player {
   constructor(mark, name) {
     this.mark =  mark;
     this.name = name;
     this.turn = false;
-    this.winningMessage = `${name} Wins!`
+    this.winningMessage = `${name} (${mark}'s) Wins!`
   }
 }
 
@@ -21,9 +30,9 @@ const screenWelcome = (() => {
   const displayNameP2 = document.querySelector(".name-player-two");
   const inputNameP1 = document.querySelector('.input-player1')
   const inputNameP2 = document.querySelector('.input-player2')
+  let totalNumberOfRadioBtns = radioHumanOrCpu.length;
 
   /*
-  Controller1 = 'X' = player1. Controller2 = 'O' = player2
   Controllers let the const gameBoard know if players are human or cpu.
   They are initiated as human but the radio buttons can change them.
   Options: 'human', 'cpu(easy)', 'cpu(medium)', 'cpu(hard)', & 'cpu(impossible)', 
@@ -53,17 +62,16 @@ const screenWelcome = (() => {
   }
 
   /*
-  The radio button on the welcome/start screen are listening for change.
+  The radio buttons on the welcome/start screen are listening for change.
   If changed to a cpu option then the input field for the player name changes
-  to 'CPU(#difficulty)' and the controller is set accordingly. .
-  If changed to the human option then the imput field is cleared and the
-  controller is set to 'human'
+  to 'CPU(#difficulty)' and the controller is set accordingly.
+  If changed to the human option then the input field is cleared and the
+  controller is set to 'human'.
   */
-  totalNumberOfRadioBtns = radioHumanOrCpu.length;
+  
   while(totalNumberOfRadioBtns--) {
-
     radioHumanOrCpu[totalNumberOfRadioBtns].addEventListener("change",function() {
-
+      // 'this' refers to the HTML input (radio button) being click by user.
       if (this.name === 'player1') {
         if (this.value !== 'human') {
           inputNameP1.value = this.value;
@@ -73,7 +81,7 @@ const screenWelcome = (() => {
           controller1 = 'human';
         }
       }
-
+      
       if (this.name === 'player2') {
         if (this.value !== 'human') {
           inputNameP2.value = this.value;
@@ -83,7 +91,6 @@ const screenWelcome = (() => {
           controller2 = 'human';
         }
       }
-
     });
   }
 
@@ -114,7 +121,7 @@ const screenWelcome = (() => {
   }
 
   /*
-
+  Allows the "Enter" key to start the game after keyup.
   */
   document.addEventListener("keyup", function(e) {
     if (e.key === "Enter") {
@@ -129,14 +136,15 @@ const screenWelcome = (() => {
 
 const gameBoard = ((player1, player2, controller1, controller2) => {
   const box = document.querySelectorAll('.box');
-  const btnClearBoard = document.querySelector('.btn-clear-board');
   const screenGameOver = document.querySelector('.screen-gameover');
   const msgContainer = document.querySelector('.msg-container');
+  const btnClearBoard = document.querySelector('.btn-clear-board');
   const btnNewGame = document.querySelector('.btn-restart');
   const btnBack = document.querySelector('.btn-back');
 
-  let p1Score = document.querySelector('.p1-score');
-  let p2Score = document.querySelector('.p2-score');
+  const p1Score = document.querySelector('.p1-score');
+  const p2Score = document.querySelector('.p2-score');
+
   let board = makeBoard();
   let gameOver = false;
 
