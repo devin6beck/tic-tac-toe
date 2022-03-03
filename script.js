@@ -130,7 +130,7 @@ const screenWelcome = (() => {
       }
     }
   })
-
+  
 })()
 
 const gameBoard = ((player1, player2, controller1, controller2) => {
@@ -313,7 +313,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   // Impossible Ai plays the best move 100% of the time. Unbeatable 
   function cpuImpossibleAi(player) {
-    let bestMove = (minimax(board, player).index)
+    const bestMove = (minimax(board, player).index)
     document.getElementById(bestMove).textContent = player.mark;
     board[bestMove] = player.mark;
   }
@@ -340,7 +340,8 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       return;
     }
     if (tieCheck()) {
-      msgContainer.textContent = "It's A Tie!";
+      spanWinnerName.textContent = `Nice Try!`;
+      spanWinMessage.textContent = "It's A Tie!";
       gameOver = true;
       screenGameOver.style.display = "flex";
     }
