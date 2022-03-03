@@ -236,7 +236,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   It also checks if the game is over and changes turn.
   Lastly if it is human vs cpu and not game over then cpuPlay() is called 
   */
-  function humanPlay(player, opponent, score, boxClicked, controller) {
+  function humanPlay(player, opponent, score, boxClicked) {
     if (boxClicked.textContent === player.mark && boxClicked.textContent !== opponent.mark) {
       boxClicked.textContent = player.mark;
       board[boxClicked.id] = player.mark;
