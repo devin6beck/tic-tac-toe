@@ -13,7 +13,6 @@ class Player {
     this.mark =  mark;
     this.name = name;
     this.turn = false;
-    this.winningMessage = `${mark}'s Win!`
   }
 }
 
@@ -28,8 +27,8 @@ const screenWelcome = (() => {
   const screenStart = document.querySelector('.screen-start');
   const displayNameP1 = document.querySelector(".name-player-one");
   const displayNameP2 = document.querySelector(".name-player-two");
-  const inputNameP1 = document.querySelector('.input-player1')
-  const inputNameP2 = document.querySelector('.input-player2')
+  const inputNameP1 = document.querySelector('.input-player1');
+  const inputNameP2 = document.querySelector('.input-player2');
   let totalNumberOfRadioBtns = radioHumanOrCpu.length;
 
   /*
@@ -37,8 +36,8 @@ const screenWelcome = (() => {
   They are initiated as human but the radio buttons can change them.
   Options: 'human', 'cpu(easy)', 'cpu(medium)', 'cpu(hard)', & 'cpu(impossible)', 
   */
-  let controller1 = 'human'
-  let controller2 = 'human'
+  let controller1 = 'human';
+  let controller2 = 'human';
 
   /*
   When the start button is clicked the name displays are applied,
@@ -47,7 +46,7 @@ const screenWelcome = (() => {
   and the const gameBoard is called.
   */
   btnStart.addEventListener('click', () =>{
-    start(controller1, controller2)
+    start(controller1, controller2);
   });
 
   function start(controller1, controller2) {
@@ -75,7 +74,7 @@ const screenWelcome = (() => {
       if (this.name === 'player1') {
         if (this.value !== 'human') {
           inputNameP1.value = this.value;
-          controller1 = this.value
+          controller1 = this.value;
         } else {   
           inputNameP1.value = "";
           controller1 = 'human';
@@ -98,12 +97,12 @@ const screenWelcome = (() => {
     radioChecked = document.querySelector(`input[name="player1"]:checked`).value;
     if (radioChecked === "human") {
       if (document.querySelector('.input-player1').value.length === 0) {
-        return "Player One"
+        return "Player One";
       } else {
-        return document.querySelector('.input-player1').value
+        return document.querySelector('.input-player1').value;
       }
     } else {
-      return radioChecked
+      return radioChecked;
     }
   }
 
@@ -111,12 +110,12 @@ const screenWelcome = (() => {
     radioChecked = document.querySelector(`input[name="player2"]:checked`).value;
     if (radioChecked === "human") {
       if (document.querySelector('.input-player2').value.length === 0) {
-        return "Player Two"
+        return "Player Two";
       } else {
-        return document.querySelector('.input-player2').value
+        return document.querySelector('.input-player2').value;
       }
     } else {
-      return radioChecked
+      return radioChecked;
     }
   }
 
@@ -151,7 +150,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   btnClearBoard.addEventListener('click', clearBoard);
   
-  btnBack.addEventListener('click', () => { window.location.reload() })
+  btnBack.addEventListener('click', () => { window.location.reload() });
 
   btnNewGame.addEventListener('click', () => {
     clearBoard();
@@ -161,7 +160,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   // Disable the btnClearBoard if it is cpu vs cpu. 
   if (controller1 !== 'human' && controller2 !== 'human') {
     btnClearBoard.disabled = true;
-    btnClearBoard.style = 'cursor: not-allowed'
+    btnClearBoard.style = 'cursor: not-allowed';
   }
 
   // Call cpuTurn() right away just in case the cpu's turn is first.
@@ -169,13 +168,12 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   function cpuTurn() {
     if (!gameOver && controller1 !== 'human') {
-      console.log(controller1)
       if (!player2.turn) {
-        cpuPlay(controller1, player1, p1Score)
+        cpuPlay(controller1, player1, p1Score);
       }
       
       if (player2.turn) {
-        cpuPlay(controller2, player2, p2Score)
+        cpuPlay(controller2, player2, p2Score);
       }
     }
 
@@ -190,15 +188,15 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       box.addEventListener('mouseover', () => {
         if (box.textContent.length === 0) {
           if (!player2.turn && controller1 === 'human') {
-            box.textContent = player1.mark
+            box.textContent = player1.mark;
           } else if (player2.turn && controller2 === 'human') {
-            box.textContent = player2.mark
+            box.textContent = player2.mark;
           }
         }
       });
       box.addEventListener('mouseout', (e) => {
         if (board[e.target.id] !== player1.mark && board[e.target.id] !== player2.mark) {
-          box.textContent = ""
+          box.textContent = "";
         }
       });
       // When a player clicks a box the drawMark function is called.
@@ -218,16 +216,16 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       box.addEventListener('click', drawMark);
       box.textContent = "";
     })
-    cpuTurn()
+    cpuTurn();
   }
 
   function drawMark(e) {
     let boxClicked = e.target; 
     if (!player2.turn) {
-      humanPlay(player1, player2, p1Score, boxClicked, controller1)
+      humanPlay(player1, player2, p1Score, boxClicked);
     } 
     if (player2.turn) {
-      humanPlay(player2, player1, p2Score, boxClicked, controller2)
+      humanPlay(player2, player1, p2Score, boxClicked);
     }
   }
 
