@@ -13,7 +13,7 @@ class Player {
     this.mark =  mark;
     this.name = name;
     this.turn = false;
-    this.winningMessage = `${name} (${mark}'s) Wins!`
+    this.winningMessage = `${name} Wins!`
   }
 }
 
