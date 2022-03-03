@@ -13,7 +13,7 @@ class Player {
     this.mark =  mark;
     this.name = name;
     this.turn = false;
-    this.winningMessage = `${name} Wins!`
+    this.winningMessage = `${mark}'s Win!`
   }
 }
 
@@ -137,7 +137,8 @@ const screenWelcome = (() => {
 const gameBoard = ((player1, player2, controller1, controller2) => {
   const box = document.querySelectorAll('.box');
   const screenGameOver = document.querySelector('.screen-gameover');
-  const msgContainer = document.querySelector('.msg-container');
+  const spanWinMessage = document.querySelector('.winning-message');
+  const spanWinnerName = document.querySelector('.winners-name');
   const btnClearBoard = document.querySelector('.btn-clear-board');
   const btnNewGame = document.querySelector('.btn-restart');
   const btnBack = document.querySelector('.btn-back');
@@ -231,14 +232,12 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   }
 
   /*
-  Plays the players's mark on the box the user clicks on if it is not empty.
+  Plays the players's mark on the box the user clicks.
   It also checks if the game is over and changes turn.
   Lastly if it is human vs cpu and not game over then cpuPlay() is called 
   */
   function humanPlay(player, opponent, score, boxClicked, controller) {
-    if (controller !== 'human') {
-      return;
-    }
+    if (controller !== 'human') return; 
     if (boxClicked.textContent === player.mark && boxClicked.textContent !== opponent.mark) {
       boxClicked.textContent = player.mark;
       board[boxClicked.id] = player.mark;
@@ -250,7 +249,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
           return;
         }
         if (controller1 !== 'human') {
-          cpuPlay(controller1, player1, p1Score)
+          cpuPlay(controller1, player1, p1Score);
         }
       }
     }
@@ -259,7 +258,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   // Delays for 1 second and then plays for the cpu.
   function cpuPlay(controller, player, score) {
     setTimeout( () => {
-      delayedAiHandler(controller, player, score)
+      delayedAiHandler(controller, player, score);
     }, 1000)
   }
 
@@ -278,7 +277,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     inquireGameOver(player, score)
     player2.turn = (player2.turn === true) ? false : true;
     if (controller1 !== 'human' && controller2 !== 'human') {
-      cpuTurn()
+      cpuTurn();
     }
   }
 
@@ -336,10 +335,11 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   // Returns true if there is a winner or the game is a tie.
   function inquireGameOver(player, score) {
     if (winnerCheck(board, player)) {
-      msgContainer.textContent = player.winningMessage;
+      spanWinnerName.textContent = `${player.name}`;
+      spanWinMessage.textContent = `${player.mark}'s Win!`;
       score.textContent++;
       gameOver = true;
-      screenGameOver.style.display = "flex";
+      screenGameOver.style.display = 'flex';
       return;
     }
     if (tieCheck()) {
@@ -356,7 +356,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
 
   // Returns true if every box on the board is marked. 
   function tieCheck() {
-    return (emptyIndexies(board).length === 0)
+    return (emptyIndexies(board).length === 0);
   } 
 
   // Returns true if a players mark ('X' or 'O') is 3 in a row on the board.

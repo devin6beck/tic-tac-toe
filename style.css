@@ -11,6 +11,8 @@ html{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+/*     Game Board Screen    */
+
 .btn-back {
   align-self: baseline;
   margin-left: 30vw;
@@ -46,7 +48,6 @@ html{
   justify-content: center;
   align-items: center;
   font-size: 5rem;
-  
   cursor: default;
 }
 
@@ -82,13 +83,11 @@ html{
   border-right: none;
 }
 
-
-/*      Game Over Screen  & Start Screen    */
+/*      Game Over Screen & Start Screen    */
 
 .screen-start,
 .screen-gameover {
   display: flex;
-  z-index: 999;
   flex-direction: column;
   position: fixed;
   width: 100vw;
@@ -97,15 +96,16 @@ html{
   background-color: rgba(3, 3, 3, 0.5);
   backdrop-filter: blur(4px);
   padding-top: 11%;
- 
+  z-index: 999;
 }
+
 .screen-gameover {
   display: none;
   justify-content: center;
-  align-items: center;
   font-size: 4rem;
   font-weight: 900;
-  gap: 20px;
+  padding: 0;
+  gap: 20px
 }
 
 .screen-start p {
@@ -136,7 +136,6 @@ h2 {
   gap: 10px;
   justify-content: center;
   align-items: center;
-
 }
 
 .name-container input{
@@ -157,6 +156,7 @@ h2 {
   cursor: pointer;
   margin-top: 20px;
 }
+
 .btn-start {
   margin-top: 70px;
 }
