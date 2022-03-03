@@ -140,32 +140,37 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   let board = makeBoard();
   let gameOver = false;
 
-  if (controller1 !== 'human' && controller2 !== 'human') {
-    btnClearBoard.disabled = true;
-    btnClearBoard.style = 'cursor: not-allowed'
-  }
-
-  playTurn();
-
-  function playTurn() {
-    if (!gameOver) {
-      if (controller1 !== 'human') {
-        if (!player2.turn) {
-          cpuPlay(controller1, player1, p1Score)
-        }
-        
-        if (player2.turn) {
-          cpuPlay(controller2, player2, p2Score)
-        }
-      }
-    }
-
-  }
+  btnClearBoard.addEventListener('click', clearBoard);
+  
+  btnBack.addEventListener('click', () => { window.location.reload() })
 
   btnNewGame.addEventListener('click', () => {
     clearBoard();
     screenGameOver.style.display = "none";
   })
+
+  // Disable the btnClearBoard if it is cpu vs cpu. 
+  if (controller1 !== 'human' && controller2 !== 'human') {
+    btnClearBoard.disabled = true;
+    btnClearBoard.style = 'cursor: not-allowed'
+  }
+
+  // Call cpuTurn() right away just in case the cpu's turn is first.
+  cpuTurn();
+
+  function cpuTurn() {
+    if (!gameOver && controller1 !== 'human') {
+      console.log(controller1)
+      if (!player2.turn) {
+        cpuPlay(controller1, player1, p1Score)
+      }
+      
+      if (player2.turn) {
+        cpuPlay(controller2, player2, p2Score)
+      }
+    }
+
+  }
 
   /*
   If at least one of the players is human as they mouseover an empty box 
@@ -182,7 +187,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
           }
         }
       });
-
       box.addEventListener('mouseout', (e) => {
         if (board[e.target.id] !== player1.mark && board[e.target.id] !== player2.mark) {
           box.textContent = ""
@@ -193,15 +197,9 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     })
   }
 
-  btnClearBoard.addEventListener('click', clearBoard);
-  
-  btnBack.addEventListener('click', () => {
-    window.location.reload()
-  })
-
   /*
   Sets the const gameBoard back to initial state, removes marks from board,
-  and calls playTurn().
+  and calls cpuTurn().
   */
   function clearBoard() {
     player2.turn = false;
@@ -211,16 +209,14 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
       box.addEventListener('click', drawMark);
       box.textContent = "";
     })
-    playTurn()
+    cpuTurn()
   }
 
   function drawMark(e) {
-    let boxClicked = e.target;
-  
+    let boxClicked = e.target; 
     if (!player2.turn) {
       humanPlay(player1, player2, p1Score, boxClicked, controller1)
     } 
-
     if (player2.turn) {
       humanPlay(player2, player1, p2Score, boxClicked, controller2)
     }
@@ -232,17 +228,14 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   Lastly if it is human vs cpu and not game over then cpuPlay() is called 
   */
   function humanPlay(player, opponent, score, boxClicked, controller) {
-
     if (controller !== 'human') {
       return;
     }
-
     if (boxClicked.textContent === player.mark && boxClicked.textContent !== opponent.mark) {
       boxClicked.textContent = player.mark;
       board[boxClicked.id] = player.mark;
       inquireGameOver(player, score);
       player2.turn = (player2.turn === true) ? false : true;
-
       if (!gameOver) {
         if (controller2 !== 'human') {
           cpuPlay(controller2, player2, p2Score);
@@ -255,52 +248,6 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     }
   }
 
-  // Returns true if there is a winner or the game is a tie.
-  function inquireGameOver(player, score) {
-    if (winnerCheck(board, player)) {
-      msgContainer.textContent = player.winningMessage;
-      score.textContent++;
-      gameOver = true;
-      screenGameOver.style.display = "flex";
-      return;
-    }
-    if (tieCheck()) {
-      msgContainer.textContent = "It's A Tie!";
-      gameOver = true;
-      screenGameOver.style.display = "flex";
-    }
-  }
-
-  // Returns random integer from 0 up to not including 9
-  function randomZeroThroughEight() { 
-    return Math.floor(Math.random() * 9); 
-  }
-
-  // Returns true if every box on the board is marked. 
-  function tieCheck() {
-    return (emptyIndexies(board).length === 0)
-  } 
- 
-  function makeBoard() {
-    return [0, 1, 2,
-            3, 4, 5,
-            6, 7, 8];
-  }
-
-  // Returns true if a players mark ('X' or 'O') is 3 in a row on the board.
-  function winnerCheck(board, player) {
-    if (
-      (board[0] === player.mark && board[1] === player.mark && board[2] === player.mark) ||
-      (board[3] === player.mark && board[4] === player.mark && board[5] === player.mark) || 
-      (board[6] === player.mark && board[7] === player.mark && board[8] === player.mark) || 
-      (board[0] === player.mark && board[3] === player.mark && board[6] === player.mark) || 
-      (board[1] === player.mark && board[4] === player.mark && board[7] === player.mark) ||  
-      (board[2] === player.mark && board[5] === player.mark && board[8] === player.mark) || 
-      (board[0] === player.mark && board[4] === player.mark && board[8] === player.mark) ||   
-      (board[2] === player.mark && board[4] === player.mark && board[6] === player.mark)
-    ) return true;
-  }
-
   // Delays for 1 second and then plays for the cpu.
   function cpuPlay(controller, player, score) {
     setTimeout( () => {
@@ -311,7 +258,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
   /*
   Plays for the cpu according to the cpu's difficulty, then checks for
   game over, and changes player2's turn. If it is a cpu vs cpu game it lastly
-  plays the next turn by calling playTurn().
+  plays the next turn by calling cpuTurn().
   */
   function delayedAiHandler(controller, player, score) {
     switch (controller) {
@@ -323,7 +270,7 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     inquireGameOver(player, score)
     player2.turn = (player2.turn === true) ? false : true;
     if (controller1 !== 'human' && controller2 !== 'human') {
-      playTurn()
+      cpuTurn()
     }
   }
 
@@ -367,10 +314,56 @@ const gameBoard = ((player1, player2, controller1, controller2) => {
     board[bestMove] = player.mark;
   }
 
+  // Returns random integer from 0 up to not including 9
+  function randomZeroThroughEight() { 
+    return Math.floor(Math.random() * 9); 
+  }
+
+  function makeBoard() {
+    return [0, 1, 2,
+            3, 4, 5,
+            6, 7, 8];
+  }
+
+  // Returns true if there is a winner or the game is a tie.
+  function inquireGameOver(player, score) {
+    if (winnerCheck(board, player)) {
+      msgContainer.textContent = player.winningMessage;
+      score.textContent++;
+      gameOver = true;
+      screenGameOver.style.display = "flex";
+      return;
+    }
+    if (tieCheck()) {
+      msgContainer.textContent = "It's A Tie!";
+      gameOver = true;
+      screenGameOver.style.display = "flex";
+    }
+  }
+
   // Returns the amount of empty boxes left on the board.
   function emptyIndexies(board){
     return  board.filter(s => s != player2.mark && s != player1.mark);
+  }
+
+  // Returns true if every box on the board is marked. 
+  function tieCheck() {
+    return (emptyIndexies(board).length === 0)
   } 
+
+  // Returns true if a players mark ('X' or 'O') is 3 in a row on the board.
+  function winnerCheck(board, player) {
+    if (
+      (board[0] === player.mark && board[1] === player.mark && board[2] === player.mark) ||
+      (board[3] === player.mark && board[4] === player.mark && board[5] === player.mark) || 
+      (board[6] === player.mark && board[7] === player.mark && board[8] === player.mark) || 
+      (board[0] === player.mark && board[3] === player.mark && board[6] === player.mark) || 
+      (board[1] === player.mark && board[4] === player.mark && board[7] === player.mark) ||  
+      (board[2] === player.mark && board[5] === player.mark && board[8] === player.mark) || 
+      (board[0] === player.mark && board[4] === player.mark && board[8] === player.mark) ||   
+      (board[2] === player.mark && board[4] === player.mark && board[6] === player.mark)
+    ) return true;
+  }
 
   // Determins the best available move using recursion. 
   function minimax(newBoard, player){
